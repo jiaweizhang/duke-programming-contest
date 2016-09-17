@@ -1,4 +1,4 @@
-package dpc.services;
+package dpc.std;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,8 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 
 @org.springframework.stereotype.Service
-class Service {
+public class Service {
 
     @Autowired
+    protected
     JdbcTemplate jt;
 }

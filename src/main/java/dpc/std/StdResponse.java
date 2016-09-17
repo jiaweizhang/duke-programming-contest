@@ -1,4 +1,4 @@
-package dpc.models.responses;
+package dpc.std;
 
 import java.sql.Timestamp;
 

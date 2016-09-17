@@ -1,6 +1,7 @@
-package dpc.services;
+package dpc.admin;
 
-import dpc.models.responses.StdResponse;
+import dpc.std.Service;
+import dpc.std.StdResponse;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;

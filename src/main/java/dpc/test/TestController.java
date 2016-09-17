@@ -1,7 +1,8 @@
-package dpc.controllers;
+package dpc.test;
 
+import dpc.std.Controller;
 import dpc.exceptions.JwtAuthException;
-import dpc.models.responses.StdResponse;
+import dpc.std.StdResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;

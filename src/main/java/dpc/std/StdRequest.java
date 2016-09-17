@@ -1,4 +1,4 @@
-package dpc.models.requests;
+package dpc.std;
 
 /**
  * Created by jiaweizhang on 9/14/2016.

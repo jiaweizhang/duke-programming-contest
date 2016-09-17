@@ -3,9 +3,9 @@ package dpc;
  * Created by jiaweizhang on 9/14/2016.
  */
 
-import dpc.controllers.Controller;
+import dpc.std.Controller;
 import dpc.exceptions.JwtAuthException;
-import dpc.models.responses.StdResponse;
+import dpc.std.StdResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
