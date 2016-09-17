@@ -5,4 +5,5 @@ package dpc.std;
  */
 public class StdRequest {
     public long userId;
+    public String netId;
 }

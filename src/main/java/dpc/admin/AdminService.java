@@ -1,8 +1,12 @@
 package dpc.admin;
 
+import dpc.auth.OAuthResponse;
+import dpc.auth.OAuthService;
 import dpc.std.Service;
 import dpc.std.StdResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import utilities.TokenCreator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,16 +24,27 @@ import java.util.stream.Collectors;
 @org.springframework.stereotype.Service
 public class AdminService extends Service {
 
+    @Autowired
+    private OAuthService oAuthService;
+
+    public StdResponse getToken(String netId) {
+        long userId = oAuthService.createUserIfNotExists(netId);
+        String token = TokenCreator.generateToken(userId, netId);
+        return new OAuthResponse(200, true, "Successfully authenticated", token, userId, netId);
+    }
+
     public StdResponse upgradeDb() throws IOException {
         String query = readQuery("sql/setup.sql");
         jt.execute(query);
 
         // set up procedures
+        /*
         for (String procFileName : getFilesInDirectory("sql/procs")) {
             System.out.println(procFileName);
             String proc = readQuery(procFileName);
             jt.execute(proc);
         }
+        */
         return new StdResponse(200, true, "Successfully upgraded database");
     }
 

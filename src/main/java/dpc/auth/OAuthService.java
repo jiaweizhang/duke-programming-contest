@@ -6,9 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import utilities.TokenCreator;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by jiaweizhang on 9/16/2016.
  */
@@ -35,15 +32,23 @@ public class OAuthService extends dpc.std.Service {
 
         String netId = netIdEmail.substring(0, netIdEmail.indexOf("@"));
 
-        int userId = createUserIfNotExists(netId);
+        long userId = createUserIfNotExists(netId);
 
         String token = TokenCreator.generateToken(userId, netId);
         return new OAuthResponse(200, true, "Successfully authenticated", token, userId, netId);
     }
 
-    private int createUserIfNotExists(String netId) {
-        // TODO
+    public long createUserIfNotExists(String netId) {
+        // TODO - refactor into procedure
+        if (!netIdExists(netId)) {
+            this.jt.update("INSERT INTO users (net_id) VALUES (?)", netId);
+        }
 
-        return 1;
+        return this.jt.queryForObject("SELECT users.user_id FROM users WHERE net_id = ?", Long.class, netId);
+    }
+
+    private boolean netIdExists(String netId) {
+        return this.jt.queryForObject("SELECT EXISTS(SELECT 1 from USERS where users.net_id = ?)",
+        Boolean.class, netId);
     }
 }

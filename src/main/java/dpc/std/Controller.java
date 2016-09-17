@@ -1,8 +1,6 @@
 package dpc.std;
 
 import dpc.exceptions.JwtAuthException;
-import dpc.std.StdRequest;
-import dpc.std.StdResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpStatus;
@@ -18,14 +16,25 @@ import java.util.Calendar;
 
 public class Controller {
 
-    void pre(StdRequest stdRequest, HttpServletRequest httpServletRequest) {
+    public StdRequest pre(HttpServletRequest httpServletRequest) {
+        StdRequest stdRequest = new StdRequest();
+        pre(stdRequest, httpServletRequest);
+        return stdRequest;
+    }
+
+    public void pre(StdRequest stdRequest, HttpServletRequest httpServletRequest) {
         String jwt = httpServletRequest.getHeader("Authorization");
         try {
             Claims claims = Jwts.parser().setSigningKey("secret key").parseClaimsJws(jwt).getBody();
-            stdRequest.userId = Long.parseLong(claims.getSubject());
+            stdRequest.userId = (long) claims.get("userId");
+            stdRequest.netId = (String) claims.get("netId");
         } catch (Exception e) {
             throw new JwtAuthException();
         }
+    }
+
+    public boolean isAdmin(StdRequest stdRequest) {
+        return stdRequest.userId == 1;
     }
 
     protected ResponseEntity wrap(StdResponse stdResponse) {
