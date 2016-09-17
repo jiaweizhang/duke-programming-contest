@@ -1,5 +1,9 @@
 package dpc.contest;
 
+import dpc.contest.models.Contest;
+import dpc.contest.models.ContestCreationRequest;
+import dpc.contest.models.ContestResponse;
+import dpc.contest.models.ContestsResponse;
 import dpc.std.Service;
 import dpc.std.StdRequest;
 import dpc.std.StdResponse;
@@ -57,7 +61,7 @@ public class ContestService extends Service {
     }
 
     private boolean contestExists(String contestId) {
-        return this.jt.queryForObject("SELECT EXISTS(SELECT 1 FROM USERS WHERE contests.contest_id = ?)",
+        return this.jt.queryForObject("SELECT EXISTS(SELECT 1 FROM contests WHERE contests.contest_id = ?)",
                 Boolean.class, contestId);
     }
 
@@ -66,7 +70,7 @@ public class ContestService extends Service {
             Contest contest = new Contest();
             contest.setContestId(rs.getString("contest_id"));
             contest.setName(rs.getString("name"));
-            contest.setStartDate(rs.getDate("start_date"));
+            contest.setStartDate(rs.getTimestamp("start_date"));
             contest.setDuration(rs.getInt("duration"));
             return contest;
         }

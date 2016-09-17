@@ -1,6 +1,7 @@
-package dpc.contest;
+package dpc.contest.models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by jiaweizhang on 9/17/2016.
@@ -8,7 +9,7 @@ import java.sql.Date;
 public class Contest {
     private String contestId;
     private String name;
-    private Date startDate;
+    private Timestamp startDate;
     private int duration;
 
     public String getContestId() {
@@ -27,11 +28,11 @@ public class Contest {
         this.name = name;
     }
 
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 

@@ -1,8 +1,9 @@
-package dpc.contest;
+package dpc.contest.models;
 
 import dpc.std.StdRequest;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by jiaweizhang on 9/17/2016.
@@ -10,6 +11,6 @@ import java.sql.Date;
 public class ContestCreationRequest extends StdRequest {
     public String contestId;
     public String name;
-    public Date startDate;
+    public Timestamp startDate;
     public int duration;
 }

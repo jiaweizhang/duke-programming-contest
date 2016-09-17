@@ -1,5 +1,6 @@
 package dpc.contest;
 
+import dpc.contest.models.ContestCreationRequest;
 import dpc.exceptions.NotAdminException;
 import dpc.std.Controller;
 import dpc.std.StdRequest;
