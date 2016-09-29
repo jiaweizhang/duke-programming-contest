@@ -50,13 +50,4 @@ public class ContestController extends Controller {
         }
         return wrap(contestService.createContest(req));
     }
-
-    @RequestMapping(value = "/join/{contest}",
-    method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity joinContest(final HttpServletRequest request, @PathVariable(value = "contest") String contestId) {
-        // join contest
-        StdRequest req = pre(request);
-        return wrap(contestService.joinContest(req));
-    }
 }

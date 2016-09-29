@@ -55,11 +55,6 @@ public class ContestService extends Service {
         return new StdResponse(200, true, "Contest created successfully");
     }
 
-    public StdResponse joinContest(StdRequest req) {
-        // TODO
-        return null;
-    }
-
     private boolean contestExists(String contestId) {
         return this.jt.queryForObject("SELECT EXISTS(SELECT 1 FROM contests WHERE contests.contest_id = ?)",
                 Boolean.class, contestId);

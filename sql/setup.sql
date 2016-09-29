@@ -18,3 +18,20 @@ CREATE TABLE IF NOT EXISTS contests (
   duration   INT          NOT NULL,
   CONSTRAINT PK_contests PRIMARY KEY (contest_id)
 );
+
+/* Groups */
+create table if not exists groups (
+  group_id bigserial not null,
+  name varchar(255) not null,
+  secret varchar(255) not null,
+  contest_id varchar(255) not null,
+  constraint fk_groups_contest_id foreign key (contest_id) references contests (contest_id)
+);
+
+/* Group membership */
+create table if not exists group_membership (
+  group_id bigint not null,
+  user_id bigint not null,
+  constraint fk_group_membership_group_id foreign key (group_id) references groups (group_id),
+  constraint fk_group_membership_user_id foreign key (user_id) references users (user_id)
+);
