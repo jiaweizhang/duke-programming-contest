@@ -1,8 +1,5 @@
 package dpc.std;
 
-import dpc.exceptions.JwtAuthException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

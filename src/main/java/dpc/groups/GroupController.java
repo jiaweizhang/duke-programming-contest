@@ -1,7 +1,5 @@
 package dpc.groups;
 
-import dpc.contest.models.ContestCreationRequest;
-import dpc.exceptions.NotAdminException;
 import dpc.groups.models.CreateGroupRequest;
 import dpc.groups.models.JoinGroupRequest;
 import dpc.std.Controller;
@@ -24,8 +22,8 @@ public class GroupController extends Controller {
     private GroupService groupService;
 
     @RequestMapping(value = "/create/{contestId}",
-        method = RequestMethod.POST,
-    headers ={"Content-type=application/json"})
+            method = RequestMethod.POST,
+            headers = {"Content-type=application/json"})
     public ResponseEntity createGroup(@PathVariable(value = "contest") String contestId, @RequestBody final CreateGroupRequest req, final HttpServletRequest request) {
         pre(req, request);
         return wrap(groupService.createGroup(req, contestId));
@@ -33,7 +31,7 @@ public class GroupController extends Controller {
 
     @RequestMapping(value = "/join/{contestId}",
             method = RequestMethod.POST,
-            headers ={"Content-type=application/json"})
+            headers = {"Content-type=application/json"})
     public ResponseEntity joinGroup(@PathVariable(value = "contest") String contestId, @RequestBody final JoinGroupRequest req, final HttpServletRequest request) {
         pre(req, request);
         return wrap(groupService.joinGroup(req, contestId));
@@ -41,7 +39,7 @@ public class GroupController extends Controller {
 
     @RequestMapping(value = "/delete/{contestId}",
             method = RequestMethod.POST,
-            headers ={"Content-type=application/json"})
+            headers = {"Content-type=application/json"})
     public ResponseEntity leaveGroup(@PathVariable(value = "contest") String contestId, final HttpServletRequest request) {
         StdRequest stdRequest = pre(request);
         return wrap(groupService.leaveGroup(stdRequest, contestId));

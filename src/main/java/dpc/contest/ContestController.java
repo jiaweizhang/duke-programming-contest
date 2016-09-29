@@ -3,7 +3,6 @@ package dpc.contest;
 import dpc.contest.models.ContestCreationRequest;
 import dpc.exceptions.NotAdminException;
 import dpc.std.Controller;
-import dpc.std.StdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -14,7 +14,7 @@ public class ContestResponse extends StdResponse {
     private Timestamp startDate;
     private int duration;
 
-    public ContestResponse (int status, boolean success, String message, Contest contest) {
+    public ContestResponse(int status, boolean success, String message, Contest contest) {
         this.status = status;
         this.success = success;
         this.message = message;
