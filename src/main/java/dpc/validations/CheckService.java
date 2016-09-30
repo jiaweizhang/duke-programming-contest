@@ -56,7 +56,15 @@ public class CheckService extends Service {
 
     public long groupMemberCount(String secret) {
         return jt.queryForObject(
-                "SELECT COUNT(*) FROM group_membership WHERE secret = (SELECT group_id FROM groups WHERE secret = ?)",
+                "SELECT COUNT(*) FROM group_membership WHERE group_id = (SELECT group_id FROM groups WHERE secret = ?)",
+                Long.class,
+                secret
+        );
+    }
+
+    public long getGroupId(String secret) {
+        return jt.queryForObject(
+                "SELECT group_id FROM groups WHERE secret = ?",
                 Long.class,
                 secret
         );
@@ -70,6 +78,14 @@ public class CheckService extends Service {
                         "AND groups.contestId = ?",
                 Long.class,
                 userId, contestId
+        );
+    }
+
+    public boolean userIsInGroup(long userId, long groupId) {
+        return jt.queryForObject(
+                "SELECT EXISTS(SELECT 1 FROM group_membership WHERE user_id = ? AND group_id = ?)",
+                Boolean.class,
+                userId, groupId
         );
     }
 }

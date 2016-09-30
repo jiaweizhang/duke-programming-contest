@@ -24,7 +24,7 @@ public class GroupController extends Controller {
     @RequestMapping(value = "/create/{contestId}",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
-    public ResponseEntity createGroup(@PathVariable(value = "contest") String contestId, @RequestBody final CreateGroupRequest req, final HttpServletRequest request) {
+    public ResponseEntity createGroup(@PathVariable(value = "contestId") String contestId, @RequestBody final CreateGroupRequest req, final HttpServletRequest request) {
         pre(req, request);
         return wrap(groupService.createGroup(req, contestId));
     }
@@ -32,7 +32,7 @@ public class GroupController extends Controller {
     @RequestMapping(value = "/join/{contestId}",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
-    public ResponseEntity joinGroup(@PathVariable(value = "contest") String contestId, @RequestBody final JoinGroupRequest req, final HttpServletRequest request) {
+    public ResponseEntity joinGroup(@PathVariable(value = "contestId") String contestId, @RequestBody final JoinGroupRequest req, final HttpServletRequest request) {
         pre(req, request);
         return wrap(groupService.joinGroup(req, contestId));
     }
@@ -40,7 +40,7 @@ public class GroupController extends Controller {
     @RequestMapping(value = "/delete/{contestId}",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
-    public ResponseEntity leaveGroup(@PathVariable(value = "contest") String contestId, final HttpServletRequest request) {
+    public ResponseEntity leaveGroup(@PathVariable(value = "contestId") String contestId, final HttpServletRequest request) {
         StdRequest stdRequest = pre(request);
         return wrap(groupService.leaveGroup(stdRequest, contestId));
     }

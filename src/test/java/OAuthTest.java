@@ -1,6 +1,5 @@
 import dpc.Application;
 import dpc.auth.OAuthService;
-import dpc.std.StdResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,6 @@ public class OAuthTest {
     @Test
     public void TestAdminOAuth() {
         long userId = oAuthService.createUserIfNotExists(TestUtilities.generateUUID());
-        assert(userId > 1);
+        assert (userId > 1);
     }
 }

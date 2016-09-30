@@ -1,5 +1,6 @@
 package dpc.groups;
 
+import dpc.exceptions.AlreadyInGroupException;
 import dpc.exceptions.GroupFullException;
 import dpc.exceptions.NotGroupMemberException;
 import dpc.groups.models.CreateGroupRequest;
@@ -9,14 +10,11 @@ import dpc.std.StdRequest;
 import dpc.std.StdResponse;
 import dpc.validations.CheckService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.UUID;
 
 /**
@@ -24,24 +22,24 @@ import java.util.UUID;
  */
 
 @org.springframework.stereotype.Service
-class GroupService extends Service {
+public class GroupService extends Service {
 
     @Autowired
     private CheckService checkService;
 
     @Transactional
-    StdResponse createGroup(CreateGroupRequest request, String contestId) {
+    public StdResponse createGroup(CreateGroupRequest request, String contestId) {
         // validate request
         // check that contestId is valid
         if (!checkService.contestExists(contestId)) {
             throw new IllegalArgumentException("contest id does not exist");
         }
         // check that group name isn't taken
-        if (!checkService.groupNameExists(request.name)) {
+        if (checkService.groupNameExists(request.name)) {
             throw new IllegalArgumentException("group name already exists");
         }
         // check that secret isn't taken and is not ""
-        if (request.secret.equals("") || !checkService.groupSecretExists(request.secret)) {
+        if (request.secret.equals("") || checkService.groupSecretExists(request.secret)) {
             throw new IllegalArgumentException("group secret already exists");
         }
 
@@ -53,7 +51,7 @@ class GroupService extends Service {
     }
 
     @Transactional
-    StdResponse joinGroup(JoinGroupRequest request, String contestId) {
+    public StdResponse joinGroup(JoinGroupRequest request, String contestId) {
         // validate request
         // check that contestId is valid
         if (!checkService.contestExists(contestId)) {
@@ -61,9 +59,13 @@ class GroupService extends Service {
         }
 
         // if secret is empty, join a group with no secret or create one if no group exists
-        if (request.secret.length() == 0 && checkService.randomGroupExists()) {
+        if (request.secret.length() == 0) {
             if (checkService.randomGroupExists()) {
                 long groupId = checkService.getRandomGroupId();
+                // check that user is not in group already
+                if (checkService.userIsInGroup(request.userId, groupId)) {
+                    throw new AlreadyInGroupException();
+                }
                 joinGroupSQL(groupId, request.userId);
                 return new StdResponse(200, true, "Successfully joined a random group");
             } else {
@@ -77,20 +79,27 @@ class GroupService extends Service {
             throw new IllegalArgumentException("secret does not exist");
         }
 
+        long groupId = checkService.getGroupId(request.secret);
+
         // check that there are currently fewer than 3 members
-        if (checkService.groupMemberCount(request.secret) > 2) {
+        if (checkService.groupMemberCount(groupId) > 2) {
             throw new GroupFullException();
         }
 
+        // check that none of the members is yourself
+        if (checkService.userIsInGroup(request.userId, groupId)) {
+            throw new AlreadyInGroupException();
+        }
+
         // add user to group
-        joinGroupSecretSQL(request.secret, request.userId);
+        joinGroupSQL(groupId, request.userId);
 
         // return success
         return new StdResponse(200, true, "Successfully joined group");
     }
 
     @Transactional
-    StdResponse leaveGroup(StdRequest request, String contestId) {
+    public StdResponse leaveGroup(StdRequest request, String contestId) {
         // validate request
         // check that contestId is valid
         if (!checkService.contestExists(contestId)) {
@@ -130,14 +139,12 @@ class GroupService extends Service {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jt.update(
-                new PreparedStatementCreator() {
-                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                        PreparedStatement ps = connection.prepareStatement(INSERT_SQL, new String[]{"group_id"});
-                        ps.setString(1, name);
-                        ps.setString(2, secret);
-                        ps.setString(3, contestId);
-                        return ps;
-                    }
+                connection -> {
+                    PreparedStatement ps = connection.prepareStatement(INSERT_SQL, new String[]{"group_id"});
+                    ps.setString(1, name);
+                    ps.setString(2, secret);
+                    ps.setString(3, contestId);
+                    return ps;
                 },
                 keyHolder);
         long groupId = keyHolder.getKey().longValue();
@@ -151,9 +158,4 @@ class GroupService extends Service {
                 groupId, userId);
     }
 
-    private void joinGroupSecretSQL(String secret, long userId) {
-        jt.update(
-                "INSERT INTO group_membership (group_id, user_id) VALUES (SELECT group_id FROM groups WHERE secret = ?, ?)",
-                secret, userId);
-    }
 }

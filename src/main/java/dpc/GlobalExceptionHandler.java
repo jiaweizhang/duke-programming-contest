@@ -3,10 +3,7 @@ package dpc;
  * Created by jiaweizhang on 9/14/2016.
  */
 
-import dpc.exceptions.GroupFullException;
-import dpc.exceptions.JwtAuthException;
-import dpc.exceptions.NotAdminException;
-import dpc.exceptions.NotGroupMemberException;
+import dpc.exceptions.*;
 import dpc.std.Controller;
 import dpc.std.StdResponse;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +44,10 @@ public class GlobalExceptionHandler extends Controller {
     @ExceptionHandler(NotGroupMemberException.class)
     public ResponseEntity handleNotGroupMemberException(Exception e) {
         return wrap(new StdResponse(200, false, "Not group member"));
+    }
+
+    @ExceptionHandler(AlreadyInGroupException.class)
+    public ResponseEntity handleAlreadyInGroupException(Exception e) {
+        return wrap(new StdResponse(200, false, "You are already in the group"));
     }
 }
