@@ -5,8 +5,9 @@ import dpc.contest.models.ContestCreationRequest;
 import dpc.contest.models.ContestResponse;
 import dpc.contest.models.ContestsResponse;
 import dpc.std.Service;
-import dpc.std.StdRequest;
 import dpc.std.StdResponse;
+import dpc.validations.CheckService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,9 @@ import java.util.List;
 @Transactional
 @org.springframework.stereotype.Service
 public class ContestService extends Service {
+
+    @Autowired
+    private CheckService checkService;
 
     public StdResponse getContests() {
         List<Contest> contests = this.jt.query("SELECT contest_id, name, start_date, duration FROM contests",
@@ -43,9 +47,8 @@ public class ContestService extends Service {
 
 
     public StdResponse createContest(ContestCreationRequest req) {
-        // TODO
         // check that contestId isn't taken
-        if (contestExists(req.contestId)) {
+        if (checkService.contestExists(req.contestId)) {
             return new StdResponse(200, false, "Contest id is taken already");
         }
 
@@ -53,16 +56,6 @@ public class ContestService extends Service {
                 req.contestId, req.name, req.startDate, req.duration);
 
         return new StdResponse(200, true, "Contest created successfully");
-    }
-
-    public StdResponse joinContest(StdRequest req) {
-        // TODO
-        return null;
-    }
-
-    private boolean contestExists(String contestId) {
-        return this.jt.queryForObject("SELECT EXISTS(SELECT 1 FROM contests WHERE contests.contest_id = ?)",
-                Boolean.class, contestId);
     }
 
     private static final class ContestMapper implements RowMapper<Contest> {

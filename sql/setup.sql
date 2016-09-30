@@ -18,3 +18,23 @@ CREATE TABLE IF NOT EXISTS contests (
   duration   INT          NOT NULL,
   CONSTRAINT PK_contests PRIMARY KEY (contest_id)
 );
+
+/* Groups */
+CREATE TABLE IF NOT EXISTS groups (
+  group_id   BIGSERIAL    NOT NULL,
+  name       VARCHAR(255) NOT NULL,
+  secret     VARCHAR(255) NOT NULL,
+  contest_id VARCHAR(255) NOT NULL,
+  CONSTRAINT UQ_groups_name UNIQUE (name),
+  CONSTRAINT PK_groups PRIMARY KEY (group_id),
+  CONSTRAINT FK_groups_contest_id FOREIGN KEY (contest_id) REFERENCES contests (contest_id)
+);
+
+/* Group membership */
+CREATE TABLE IF NOT EXISTS group_membership (
+  group_id BIGINT NOT NULL,
+  user_id  BIGINT NOT NULL,
+  CONSTRAINT UQ_users UNIQUE (group_id, user_id),
+  CONSTRAINT FK_group_membership_group_id FOREIGN KEY (group_id) REFERENCES groups (group_id),
+  CONSTRAINT FK_group_membership_user_id FOREIGN KEY (user_id) REFERENCES users (user_id)
+);

@@ -49,6 +49,6 @@ public class OAuthService extends dpc.std.Service {
 
     private boolean netIdExists(String netId) {
         return this.jt.queryForObject("SELECT EXISTS(SELECT 1 from USERS where users.net_id = ?)",
-        Boolean.class, netId);
+                Boolean.class, netId);
     }
 }

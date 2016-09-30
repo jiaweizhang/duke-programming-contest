@@ -3,7 +3,6 @@ package dpc.contest;
 import dpc.contest.models.ContestCreationRequest;
 import dpc.exceptions.NotAdminException;
 import dpc.std.Controller;
-import dpc.std.StdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,14 +48,5 @@ public class ContestController extends Controller {
             throw new NotAdminException();
         }
         return wrap(contestService.createContest(req));
-    }
-
-    @RequestMapping(value = "/join/{contest}",
-    method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity joinContest(final HttpServletRequest request, @PathVariable(value = "contest") String contestId) {
-        // join contest
-        StdRequest req = pre(request);
-        return wrap(contestService.joinContest(req));
     }
 }

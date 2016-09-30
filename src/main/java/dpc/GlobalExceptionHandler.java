@@ -3,8 +3,7 @@ package dpc;
  * Created by jiaweizhang on 9/14/2016.
  */
 
-import dpc.exceptions.JwtAuthException;
-import dpc.exceptions.NotAdminException;
+import dpc.exceptions.*;
 import dpc.std.Controller;
 import dpc.std.StdResponse;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +29,25 @@ public class GlobalExceptionHandler extends Controller {
     @ExceptionHandler(BadSqlGrammarException.class)
     public ResponseEntity handleSqlException(Exception e) {
         return wrap(new StdResponse(500, false, "Database error: " + e.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity handleIllegalArgumentException(Exception e) {
+        return wrap(new StdResponse(200, false, "Invalid request: " + e.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(GroupFullException.class)
+    public ResponseEntity handleGroupFullException(Exception e) {
+        return wrap(new StdResponse(200, false, "Group is full"));
+    }
+
+    @ExceptionHandler(NotGroupMemberException.class)
+    public ResponseEntity handleNotGroupMemberException(Exception e) {
+        return wrap(new StdResponse(200, false, "Not group member"));
+    }
+
+    @ExceptionHandler(AlreadyInGroupException.class)
+    public ResponseEntity handleAlreadyInGroupException(Exception e) {
+        return wrap(new StdResponse(200, false, "You are already in the group"));
     }
 }

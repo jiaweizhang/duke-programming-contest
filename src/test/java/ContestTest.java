@@ -1,7 +1,7 @@
 import dpc.Application;
+import dpc.contest.ContestService;
 import dpc.contest.models.ContestCreationRequest;
 import dpc.contest.models.ContestResponse;
-import dpc.contest.ContestService;
 import dpc.contest.models.ContestsResponse;
 import dpc.std.StdResponse;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class ContestTest {
         createContest(uuid);
 
         ContestResponse contestResponse = (ContestResponse) contestService.getContest(uuid);
-        assert(contestResponse.getContestId().equals(uuid));
+        assert (contestResponse.getContestId().equals(uuid));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ContestTest {
         createContest(TestUtilities.generateUUID());
 
         ContestsResponse contestsResponse = (ContestsResponse) contestService.getContests();
-        assert(contestsResponse.getContests().size() >= 2);
+        assert (contestsResponse.getContests().size() >= 2);
     }
 
     private boolean createContest(String contestId) {

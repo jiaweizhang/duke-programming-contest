@@ -1,8 +1,5 @@
 package dpc.std;
 
-import dpc.exceptions.JwtAuthException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,6 +20,7 @@ public class Controller {
     }
 
     public void pre(StdRequest stdRequest, HttpServletRequest httpServletRequest) {
+        /*
         String jwt = httpServletRequest.getHeader("Authorization");
         try {
             Claims claims = Jwts.parser().setSigningKey("secret key").parseClaimsJws(jwt).getBody();
@@ -30,7 +28,10 @@ public class Controller {
             stdRequest.netId = (String) claims.get("netId");
         } catch (Exception e) {
             throw new JwtAuthException();
-        }
+        }*/
+        // TODO just for development
+        stdRequest.userId = 1;
+        stdRequest.netId = "jz134";
     }
 
     public boolean isAdmin(StdRequest stdRequest) {
