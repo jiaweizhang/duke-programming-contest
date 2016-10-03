@@ -6,7 +6,7 @@ import dpc.contest.models.ContestResponse;
 import dpc.contest.models.ContestsResponse;
 import dpc.std.Service;
 import dpc.std.StdResponse;
-import dpc.validations.CheckService;
+import dpc.checks.CheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
