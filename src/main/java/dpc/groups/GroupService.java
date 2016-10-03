@@ -8,7 +8,7 @@ import dpc.groups.models.JoinGroupRequest;
 import dpc.std.Service;
 import dpc.std.StdRequest;
 import dpc.std.StdResponse;
-import dpc.validations.CheckService;
+import dpc.checks.CheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;

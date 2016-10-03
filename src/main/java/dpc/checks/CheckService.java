@@ -1,4 +1,4 @@
-package dpc.validations;
+package dpc.checks;
 
 import dpc.std.Service;
 

@@ -50,4 +50,9 @@ public class GlobalExceptionHandler extends Controller {
     public ResponseEntity handleAlreadyInGroupException(Exception e) {
         return wrap(new StdResponse(200, false, "You are already in the group"));
     }
+
+    @ExceptionHandler(ContestNotStartedException.class)
+    public ResponseEntity handleContestNotStartedException(Exception e) {
+        return wrap(new StdResponse(403, false, "Contest has not started yet"));
+    }
 }

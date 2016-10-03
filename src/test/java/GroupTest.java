@@ -108,7 +108,7 @@ public class GroupTest {
 
         JoinGroupRequest joinGroupRequest2 = new JoinGroupRequest();
         joinGroupRequest2.userId = userId4;
-        joinGroupRequest2.netId = netId3;
+        joinGroupRequest2.netId = netId4;
         joinGroupRequest2.secret = "good secret";
         try {
             groupService.joinGroup(joinGroupRequest2, CONTEST_ID);
