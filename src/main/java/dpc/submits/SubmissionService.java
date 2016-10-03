@@ -9,10 +9,13 @@ import dpc.std.StdRequest;
 import dpc.std.StdResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +31,6 @@ public class SubmissionService extends Service {
 
     public StdResponse submit(StdRequest req, String contestId, int problemNumber, String body) {
         List<String> lines = Arrays.asList(body.split("\n"));
-        System.out.println("Numlines: " + lines.size());
 
         // make sure problem exists
         if (problemNumber < 1 || problemNumber > 8) {
@@ -70,6 +72,20 @@ public class SubmissionService extends Service {
         return new SubmissionResponse(200, true, "Submission acknowledged", isCorrect);
     }
 
+    public StdResponse getSubmissions(StdRequest stdRequest, String contestId) {
+        if (!checkService.inGroupForContest(stdRequest.userId, contestId)) {
+            throw new NotGroupMemberException();
+        }
+
+        long groupId = checkService.getGroupId(stdRequest.userId, contestId);
+
+        List<Submission> submissions = jt.query(
+                "SELECT is_correct, submit_time, problem_number FROM submissions WHERE contest_id = ? AND group_id = ?",
+                new SubmissionMapper(), contestId, groupId);
+
+        return new SubmissionsResponse(200, true, "Successfully retrieved submissions", submissions);
+    }
+
     private boolean isCorrect(List<String> submission, List<String> key) {
         List<String> filteredSubmission = submission.stream()
                 .map(String::trim)
@@ -102,6 +118,16 @@ public class SubmissionService extends Service {
             }
         } catch (Exception e) {
             throw new FileReaderException();
+        }
+    }
+
+    private static final class SubmissionMapper implements RowMapper<Submission> {
+        public Submission mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Submission submission = new Submission();
+            submission.isCorrect = rs.getInt("is_correct");
+            submission.submitTime = rs.getTimestamp("submit_time");
+            submission.problemNumber = rs.getInt("problem_number");
+            return submission;
         }
     }
 }

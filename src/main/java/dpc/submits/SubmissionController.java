@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @RestController
-@RequestMapping("/api/submit")
+@RequestMapping("/api")
 public class SubmissionController extends Controller {
 
     @Autowired
     private SubmissionService submissionService;
 
-    @RequestMapping(value = "/{contestId}/{problemNumber}",
+    @RequestMapping(value = "/submit/{contestId}/{problemNumber}",
             method = RequestMethod.POST,
             consumes = "text/plain")
     @ResponseBody
@@ -29,5 +29,13 @@ public class SubmissionController extends Controller {
                                  @RequestBody final String body) {
         StdRequest stdRequest = pre(req);
         return wrap(submissionService.submit(stdRequest, contestId, problemNumber, body));
+    }
+
+    @RequestMapping(value = "/submissions/{contestId}",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getSubmissions(@PathVariable(value = "contestId") String contestId, final HttpServletRequest req) {
+        StdRequest stdRequest = pre(req);
+        return wrap(submissionService.getSubmissions(stdRequest, contestId));
     }
 }
