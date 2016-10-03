@@ -1,10 +1,10 @@
 package dpc.auth;
 
 import dpc.std.StdResponse;
+import dpc.utilities.TokenUtility;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import utilities.TokenCreator;
 
 /**
  * Created by jiaweizhang on 9/16/2016.
@@ -34,7 +34,7 @@ public class OAuthService extends dpc.std.Service {
 
         long userId = createUserIfNotExists(netId);
 
-        String token = TokenCreator.generateToken(userId, netId);
+        String token = TokenUtility.generateToken(userId, netId);
         return new OAuthResponse(200, true, "Successfully authenticated", token, userId, netId);
     }
 

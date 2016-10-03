@@ -1,12 +1,12 @@
 package dpc.contest;
 
+import dpc.checks.CheckService;
 import dpc.contest.models.Contest;
 import dpc.contest.models.ContestCreationRequest;
 import dpc.contest.models.ContestResponse;
 import dpc.contest.models.ContestsResponse;
 import dpc.std.Service;
 import dpc.std.StdResponse;
-import dpc.checks.CheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;

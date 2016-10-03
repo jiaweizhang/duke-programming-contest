@@ -4,9 +4,9 @@ import dpc.auth.OAuthResponse;
 import dpc.auth.OAuthService;
 import dpc.std.Service;
 import dpc.std.StdResponse;
+import dpc.utilities.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import utilities.TokenCreator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,7 +29,7 @@ public class AdminService extends Service {
 
     public StdResponse getToken(String netId) {
         long userId = oAuthService.createUserIfNotExists(netId);
-        String token = TokenCreator.generateToken(userId, netId);
+        String token = TokenUtility.generateToken(userId, netId);
         return new OAuthResponse(200, true, "Successfully authenticated", token, userId, netId);
     }
 

@@ -31,5 +31,4 @@ public class TestController extends Controller {
         if (1 == 1) jt.execute("INSERT INTO badTable VALUES (1, 2)");
         return new StdResponse(200, false, "Successful get");
     }
-
 }
