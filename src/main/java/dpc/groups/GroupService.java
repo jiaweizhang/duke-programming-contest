@@ -1,5 +1,6 @@
 package dpc.groups;
 
+import dpc.checks.CheckService;
 import dpc.exceptions.AlreadyInGroupException;
 import dpc.exceptions.GroupFullException;
 import dpc.exceptions.NotGroupMemberException;
@@ -8,7 +9,6 @@ import dpc.groups.models.JoinGroupRequest;
 import dpc.std.Service;
 import dpc.std.StdRequest;
 import dpc.std.StdResponse;
-import dpc.checks.CheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;

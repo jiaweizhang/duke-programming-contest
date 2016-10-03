@@ -55,4 +55,9 @@ public class GlobalExceptionHandler extends Controller {
     public ResponseEntity handleContestNotStartedException(Exception e) {
         return wrap(new StdResponse(403, false, "Contest has not started yet"));
     }
+
+    @ExceptionHandler(PropertyLoaderException.class)
+    public ResponseEntity handlePropertyLoaderException(Exception e) {
+        return wrap(new StdResponse(500, false, "Error while retrieving property"));
+    }
 }

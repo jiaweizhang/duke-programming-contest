@@ -1,8 +1,8 @@
 package dpc.statics;
 
+import dpc.checks.CheckService;
 import dpc.exceptions.ContestNotStartedException;
 import dpc.std.Service;
-import dpc.checks.CheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
