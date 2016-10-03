@@ -1,10 +1,10 @@
 package dpc.auth;
 
 import dpc.std.StdResponse;
-import dpc.utilities.TokenUtility;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import utilities.TokenUtility;
 
 /**
  * Created by jiaweizhang on 9/16/2016.

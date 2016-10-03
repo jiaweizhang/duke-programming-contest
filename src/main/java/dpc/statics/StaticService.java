@@ -1,15 +1,12 @@
 package dpc.statics;
 
 import dpc.checks.CheckService;
-import dpc.exceptions.ContestNotStartedException;
 import dpc.std.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
-import java.sql.Timestamp;
 
 /**
  * Created by jiaweizhang on 10/2/2016.
@@ -22,13 +19,13 @@ public class StaticService extends Service {
 
     public ResponseEntity getProblem(String fileName) {
         String contestId = parseFileName(fileName);
-        checkContestOpen(contestId);
+        checkService.checkContestOpen(contestId);
         return loadFile("problems/" + fileName + ".pdf", "application/pdf");
     }
 
     public ResponseEntity getInput(String fileName) {
         String contestId = parseFileName(fileName);
-        checkContestOpen(contestId);
+        checkService.checkContestOpen(contestId);
         return loadFile("inputs/" + fileName + ".txt", "text/plain");
     }
 
@@ -48,21 +45,6 @@ public class StaticService extends Service {
         }
 
         return contestId;
-    }
-
-    private void checkContestOpen(String contestId) {
-        // check that contest is open
-        long unixTime = System.currentTimeMillis() / 1000L;
-        Timestamp current = new Timestamp(unixTime);
-        Timestamp startTime = jt.queryForObject(
-                "SELECT start_date FROM contests WHERE contest_id = ?",
-                Timestamp.class,
-                contestId
-        );
-
-        if (current.before(startTime)) {
-            throw new ContestNotStartedException();
-        }
     }
 
     private ResponseEntity loadFile(String path, String mediaType) {

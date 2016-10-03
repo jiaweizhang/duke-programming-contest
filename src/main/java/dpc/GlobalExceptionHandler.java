@@ -60,4 +60,14 @@ public class GlobalExceptionHandler extends Controller {
     public ResponseEntity handlePropertyLoaderException(Exception e) {
         return wrap(new StdResponse(500, false, "Error while retrieving property"));
     }
+
+    @ExceptionHandler(FileReaderException.class)
+    public ResponseEntity handleFileReaderException(Exception e) {
+        return wrap(new StdResponse(500, false, "Error while reading file"));
+    }
+
+    @ExceptionHandler(AlreadyHaveCorrectSubmissionException.class)
+    public ResponseEntity handleAlreadyHaveCorrectSubmissionException(Exception e) {
+        return wrap(new StdResponse(200, false, "You have already submitted the correct answer"));
+    }
 }

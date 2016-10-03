@@ -4,9 +4,9 @@ import dpc.auth.OAuthResponse;
 import dpc.auth.OAuthService;
 import dpc.std.Service;
 import dpc.std.StdResponse;
-import dpc.utilities.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import utilities.TokenUtility;
 
 import java.io.BufferedReader;
 import java.io.File;

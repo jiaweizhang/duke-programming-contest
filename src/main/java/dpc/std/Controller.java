@@ -1,10 +1,10 @@
 package dpc.std;
 
 import dpc.exceptions.JwtAuthException;
-import dpc.utilities.TokenUtility;
 import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import utilities.TokenUtility;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
@@ -26,7 +26,7 @@ public class Controller {
         String jwt = httpServletRequest.getHeader("Authorization");
         try {
             Claims claims = TokenUtility.retrieveClaims(jwt);
-            stdRequest.userId = (long) claims.get("userId");
+            stdRequest.userId = Long.valueOf(claims.get("userId").toString());
             stdRequest.netId = (String) claims.get("netId");
         } catch (Exception e) {
             throw new JwtAuthException();

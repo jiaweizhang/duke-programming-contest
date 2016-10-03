@@ -59,7 +59,7 @@ public class GroupService extends Service {
         }
 
         // if secret is empty, join a group with no secret or create one if no group exists
-        if (request.secret.length() == 0) {
+        if (request.secret == null || request.secret.length() == 0) {
             if (checkService.randomGroupExists()) {
                 long groupId = checkService.getRandomGroupId();
                 // check that user is not in group already

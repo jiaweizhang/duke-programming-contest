@@ -1,6 +1,7 @@
 package dpc.submits;
 
 import dpc.std.Controller;
+import dpc.std.StdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,8 @@ public class SubmissionController extends Controller {
     public ResponseEntity submit(@PathVariable(value = "contestId") String contestId,
                                  @PathVariable(value = "problemNumber") int problemNumber,
                                  final HttpServletRequest req,
-                                 final String body) {
-        System.out.println(body);
-        return ResponseEntity.ok().body(body);
+                                 @RequestBody final String body) {
+        StdRequest stdRequest = pre(req);
+        return wrap(submissionService.submit(stdRequest, contestId, problemNumber, body));
     }
 }

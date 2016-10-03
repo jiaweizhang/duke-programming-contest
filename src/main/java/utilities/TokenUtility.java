@@ -1,4 +1,4 @@
-package dpc.utilities;
+package utilities;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

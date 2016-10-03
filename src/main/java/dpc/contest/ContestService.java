@@ -29,14 +29,14 @@ public class ContestService extends Service {
     private CheckService checkService;
 
     public StdResponse getContests() {
-        List<Contest> contests = this.jt.query("SELECT contest_id, name, start_date, duration FROM contests",
+        List<Contest> contests = this.jt.query("SELECT contest_id, name, start_time, duration FROM contests",
                 new ContestMapper());
         return new ContestsResponse(200, true, "Successfully retrieved contests", contests);
     }
 
     public StdResponse getContest(String contestId) {
         try {
-            Contest contest = this.jt.queryForObject("SELECT contest_id, name, start_date, duration FROM contests WHERE contest_id = ?",
+            Contest contest = this.jt.queryForObject("SELECT contest_id, name, start_time, duration FROM contests WHERE contest_id = ?",
                     new Object[]{contestId},
                     new ContestMapper());
             return new ContestResponse(200, true, "Successfully retrieve contest", contest);
@@ -52,7 +52,7 @@ public class ContestService extends Service {
             return new StdResponse(200, false, "Contest id is taken already");
         }
 
-        this.jt.update("INSERT INTO contests (contest_id, name, start_date, duration) VALUES (?, ?, ?, ?)",
+        this.jt.update("INSERT INTO contests (contest_id, name, start_time, duration) VALUES (?, ?, ?, ?)",
                 req.contestId, req.name, req.startDate, req.duration);
 
         return new StdResponse(200, true, "Contest created successfully");

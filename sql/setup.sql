@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS contests (
   contest_id VARCHAR(255) NOT NULL,
   name       VARCHAR(255) NOT NULL,
-  start_date TIMESTAMP    NOT NULL,
+  start_time TIMESTAMP    NOT NULL,
   duration   INT          NOT NULL,
   CONSTRAINT PK_contests PRIMARY KEY (contest_id)
 );
@@ -37,4 +37,15 @@ CREATE TABLE IF NOT EXISTS group_membership (
   CONSTRAINT UQ_users UNIQUE (group_id, user_id),
   CONSTRAINT FK_group_membership_group_id FOREIGN KEY (group_id) REFERENCES groups (group_id),
   CONSTRAINT FK_group_membership_user_id FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+/* Submissions */
+CREATE TABLE IF NOT EXISTS submissions (
+  group_id       BIGINT       NOT NULL,
+  contest_id     VARCHAR(255) NOT NULL,
+  problem_number INT          NOT NULL,
+  is_correct     INT          NOT NULL,
+  submit_time    TIMESTAMP DEFAULT current_timestamp,
+  CONSTRAINT FK_submissions_group_id FOREIGN KEY (group_id) REFERENCES groups (group_id),
+  CONSTRAINT FK_submissions_contest_id FOREIGN KEY (contest_id) REFERENCES contests (contest_id)
 );
