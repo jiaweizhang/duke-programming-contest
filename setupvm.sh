@@ -34,4 +34,5 @@ git clone https://github.com/jiaweizhang/duke-programming-contest.git
 sudo su - postgres
 psql
 \password
+create database test;
 \q
