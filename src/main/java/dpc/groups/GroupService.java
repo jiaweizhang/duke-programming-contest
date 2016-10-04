@@ -7,8 +7,8 @@ import dpc.exceptions.NotGroupMemberException;
 import dpc.groups.models.CreateGroupRequest;
 import dpc.groups.models.JoinGroupRequest;
 import dpc.std.Service;
-import dpc.std.StdRequest;
-import dpc.std.StdResponse;
+import dpc.std.models.StdRequest;
+import dpc.std.models.StdResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -59,7 +59,7 @@ public class GroupService extends Service {
         }
 
         // if secret is empty, join a group with no secret or create one if no group exists
-        if (request.secret.length() == 0) {
+        if (request.secret == null || request.secret.length() == 0) {
             if (checkService.randomGroupExists()) {
                 long groupId = checkService.getRandomGroupId();
                 // check that user is not in group already

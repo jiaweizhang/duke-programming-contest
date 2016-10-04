@@ -1,4 +1,4 @@
-package dpc.std;
+package dpc.std.models;
 
 import java.sql.Timestamp;
 

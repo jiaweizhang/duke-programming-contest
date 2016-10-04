@@ -1,6 +1,6 @@
 package dpc.contest.models;
 
-import dpc.std.StdResponse;
+import dpc.std.models.StdResponse;
 
 import java.util.List;
 

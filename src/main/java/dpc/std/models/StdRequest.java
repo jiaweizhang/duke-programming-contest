@@ -1,4 +1,4 @@
-package dpc.std;
+package dpc.std.models;
 
 /**
  * Created by jiaweizhang on 9/14/2016.

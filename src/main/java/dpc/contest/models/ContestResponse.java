@@ -1,6 +1,6 @@
 package dpc.contest.models;
 
-import dpc.std.StdResponse;
+import dpc.std.models.StdResponse;
 
 import java.sql.Timestamp;
 
@@ -11,8 +11,8 @@ public class ContestResponse extends StdResponse {
 
     private String contestId;
     private String name;
-    private Timestamp startDate;
-    private int duration;
+    private Timestamp startTime;
+    private Timestamp endTime;
 
     public ContestResponse(int status, boolean success, String message, Contest contest) {
         this.status = status;
@@ -20,8 +20,8 @@ public class ContestResponse extends StdResponse {
         this.message = message;
         this.contestId = contest.getContestId();
         this.name = contest.getName();
-        this.startDate = contest.getStartDate();
-        this.duration = contest.getDuration();
+        this.startTime = contest.getStartTime();
+        this.endTime = contest.getEndTime();
     }
 
     public String getContestId() {
@@ -32,11 +32,11 @@ public class ContestResponse extends StdResponse {
         return name;
     }
 
-    public Timestamp getStartDate() {
-        return startDate;
+    public Timestamp getStartTime() {
+        return startTime;
     }
 
-    public int getDuration() {
-        return duration;
+    public Timestamp getEndTime() {
+        return endTime;
     }
 }

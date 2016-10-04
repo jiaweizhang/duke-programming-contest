@@ -1,17 +1,20 @@
 package dpc.admin;
 
-import dpc.auth.OAuthResponse;
 import dpc.auth.OAuthService;
+import dpc.auth.models.OAuthResponse;
 import dpc.std.Service;
-import dpc.std.StdResponse;
-import dpc.utilities.TokenUtility;
+import dpc.std.models.StdResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
+import utilities.TokenUtility;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,19 +36,16 @@ public class AdminService extends Service {
         return new OAuthResponse(200, true, "Successfully authenticated", token, userId, netId);
     }
 
-    public StdResponse upgradeDb() throws IOException {
-        String query = readQuery("sql/setup.sql");
-        jt.execute(query);
+    public StdResponse upgradeDb() {
+        try {
+            String query = readQuery("sql/setup.sql");
+            jt.execute(query);
 
-        // set up procedures
-        /*
-        for (String procFileName : getFilesInDirectory("sql/procs")) {
-            System.out.println(procFileName);
-            String proc = readQuery(procFileName);
-            jt.execute(proc);
+            return new StdResponse(200, true, "Successfully upgraded database");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new StdResponse(500, false, "Failed to upgrade database");
         }
-        */
-        return new StdResponse(200, true, "Successfully upgraded database");
     }
 
     private List<String> getFilesInDirectory(String directory) {
@@ -70,5 +70,21 @@ public class AdminService extends Service {
         in.close();
 
         return sb.toString();
+    }
+
+    public long createUser(String netId) {
+
+        final String INSERT_SQL =
+                "INSERT INTO users (net_id) VALUES (?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jt.update(
+                connection -> {
+                    PreparedStatement ps = connection.prepareStatement(INSERT_SQL, new String[]{"user_id"});
+                    ps.setString(1, netId);
+                    return ps;
+                },
+                keyHolder);
+        return keyHolder.getKey().longValue();
     }
 }

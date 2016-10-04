@@ -1,4 +1,4 @@
-package dpc.utilities;
+package utilities;
 
 import dpc.exceptions.PropertyLoaderException;
 

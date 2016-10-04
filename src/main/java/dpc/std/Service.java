@@ -11,6 +11,5 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class Service {
 
     @Autowired
-    protected
-    JdbcTemplate jt;
+    public JdbcTemplate jt;
 }

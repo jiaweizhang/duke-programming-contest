@@ -1,6 +1,6 @@
 package dpc.groups.models;
 
-import dpc.std.StdRequest;
+import dpc.std.models.StdRequest;
 
 /**
  * Created by jiaweizhang on 9/28/2016.

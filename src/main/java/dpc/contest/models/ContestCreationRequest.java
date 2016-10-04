@@ -1,6 +1,6 @@
 package dpc.contest.models;
 
-import dpc.std.StdRequest;
+import dpc.std.models.StdRequest;
 
 import java.sql.Timestamp;
 
@@ -10,6 +10,6 @@ import java.sql.Timestamp;
 public class ContestCreationRequest extends StdRequest {
     public String contestId;
     public String name;
-    public Timestamp startDate;
-    public int duration;
+    public Timestamp startTime;
+    public Timestamp endTime;
 }

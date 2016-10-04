@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 public class Contest {
     private String contestId;
     private String name;
-    private Timestamp startDate;
-    private int duration;
+    private Timestamp startTime;
+    private Timestamp endTime;
 
     public String getContestId() {
         return contestId;
@@ -27,19 +27,19 @@ public class Contest {
         this.name = name;
     }
 
-    public Timestamp getStartDate() {
-        return startDate;
+    public Timestamp getStartTime() {
+        return startTime;
     }
 
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
     }
 
-    public int getDuration() {
-        return duration;
+    public Timestamp getEndTime() {
+        return endTime;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 }
