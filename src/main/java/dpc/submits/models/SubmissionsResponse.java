@@ -1,6 +1,6 @@
-package dpc.submits;
+package dpc.submits.models;
 
-import dpc.std.StdResponse;
+import dpc.std.models.StdResponse;
 
 import java.util.List;
 

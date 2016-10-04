@@ -5,7 +5,7 @@ package dpc;
 
 import dpc.exceptions.*;
 import dpc.std.Controller;
-import dpc.std.StdResponse;
+import dpc.std.models.StdResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -54,6 +54,11 @@ public class GlobalExceptionHandler extends Controller {
     @ExceptionHandler(ContestNotStartedException.class)
     public ResponseEntity handleContestNotStartedException(Exception e) {
         return wrap(new StdResponse(403, false, "Contest has not started yet"));
+    }
+
+    @ExceptionHandler(ContestHasEndedException.class)
+    public ResponseEntity handleContestHasEndedException(Exception e) {
+        return wrap(new StdResponse(403, false, "Contest has ended"));
     }
 
     @ExceptionHandler(PropertyLoaderException.class)

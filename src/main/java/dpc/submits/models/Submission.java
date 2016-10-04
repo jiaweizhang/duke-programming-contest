@@ -1,4 +1,4 @@
-package dpc.submits;
+package dpc.submits.models;
 
 
 import java.sql.Timestamp;

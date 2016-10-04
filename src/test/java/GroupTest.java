@@ -1,12 +1,12 @@
 import dpc.Application;
+import dpc.admin.AdminService;
 import dpc.contest.ContestService;
 import dpc.contest.models.ContestCreationRequest;
 import dpc.exceptions.GroupFullException;
 import dpc.groups.GroupService;
 import dpc.groups.models.CreateGroupRequest;
 import dpc.groups.models.JoinGroupRequest;
-import dpc.std.StdResponse;
-import dpc.test.TestService;
+import dpc.std.models.StdResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +32,7 @@ public class GroupTest {
     private final String netId4 = "savage";
     private final String CONTEST_ID = "dpc";
     @Autowired
-    private TestService testService;
+    private AdminService adminService;
     @Autowired
     private ContestService contestService;
     @Autowired
@@ -44,16 +44,17 @@ public class GroupTest {
 
     @Before
     public void before() {
-        testService.updateDb();
-        userId1 = testService.createUser(netId1);
-        userId2 = testService.createUser(netId2);
-        userId3 = testService.createUser(netId3);
-        userId4 = testService.createUser(netId4);
+        adminService.upgradeDb();
+        userId1 = adminService.createUser(netId1);
+        userId2 = adminService.createUser(netId2);
+        userId3 = adminService.createUser(netId3);
+        userId4 = adminService.createUser(netId4);
         ContestCreationRequest contestCreationRequest = new ContestCreationRequest();
         contestCreationRequest.userId = userId1;
         contestCreationRequest.contestId = "dpc";
         contestCreationRequest.name = "Duke Programming Contest";
-        contestCreationRequest.startDate = new Timestamp(1400000000);
+        contestCreationRequest.startTime = new Timestamp(1400000000);
+        contestCreationRequest.endTime = new Timestamp(1500000000);
         contestService.createContest(contestCreationRequest);
     }
 

@@ -1,5 +1,6 @@
 package dpc.checks;
 
+import dpc.exceptions.ContestHasEndedException;
 import dpc.exceptions.ContestNotStartedException;
 import dpc.std.Service;
 
@@ -112,9 +113,18 @@ public class CheckService extends Service {
                 Timestamp.class,
                 contestId
         );
+        Timestamp endTime = jt.queryForObject(
+                "SELECT end_time FROM contests WHERE contest_id = ?",
+                Timestamp.class,
+                contestId
+        );
 
         if (current.before(startTime)) {
             throw new ContestNotStartedException();
+        }
+
+        if (current.after(endTime)) {
+            throw new ContestHasEndedException();
         }
     }
 

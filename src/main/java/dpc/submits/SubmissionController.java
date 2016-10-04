@@ -1,7 +1,7 @@
 package dpc.submits;
 
 import dpc.std.Controller;
-import dpc.std.StdRequest;
+import dpc.std.models.StdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

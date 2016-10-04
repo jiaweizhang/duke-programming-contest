@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS contests (
   contest_id VARCHAR(255) NOT NULL,
   name       VARCHAR(255) NOT NULL,
   start_time TIMESTAMP    NOT NULL,
-  duration   INT          NOT NULL,
+  end_time   TIMESTAMP    NOT NULL,
   CONSTRAINT PK_contests PRIMARY KEY (contest_id)
 );
 

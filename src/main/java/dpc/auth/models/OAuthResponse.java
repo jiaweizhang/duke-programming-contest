@@ -1,6 +1,6 @@
-package dpc.auth;
+package dpc.auth.models;
 
-import dpc.std.StdResponse;
+import dpc.std.models.StdResponse;
 
 /**
  * Created by jiaweizhang on 9/16/2016.
