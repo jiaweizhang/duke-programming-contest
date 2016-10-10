@@ -55,7 +55,7 @@ public class ContestTest {
     private boolean createContest(String contestId) {
         ContestCreationRequest contestCreationRequest = new ContestCreationRequest();
         contestCreationRequest.contestId = contestId;
-        contestCreationRequest.name = "Contest name test";
+        contestCreationRequest.contestName = "Contest name test";
         contestCreationRequest.startTime = new Timestamp(Calendar.getInstance().getTime().getTime());
         contestCreationRequest.endTime = new Timestamp(Calendar.getInstance().getTime().getTime());
         contestCreationRequest.netId = "jz134";

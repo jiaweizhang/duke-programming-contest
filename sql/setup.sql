@@ -12,20 +12,18 @@ CREATE TABLE IF NOT EXISTS users (
 
 /* Contests table */
 CREATE TABLE IF NOT EXISTS contests (
-  contest_id VARCHAR(255) NOT NULL,
-  name       VARCHAR(255) NOT NULL,
-  start_time TIMESTAMP    NOT NULL,
-  end_time   TIMESTAMP    NOT NULL,
+  contest_id   VARCHAR(255) NOT NULL,
+  contest_name VARCHAR(255) NOT NULL,
+  start_time   TIMESTAMP    NOT NULL,
+  end_time     TIMESTAMP    NOT NULL,
   CONSTRAINT PK_contests PRIMARY KEY (contest_id)
 );
 
 /* Groups */
 CREATE TABLE IF NOT EXISTS groups (
   group_id   BIGSERIAL    NOT NULL,
-  name       VARCHAR(255) NOT NULL,
-  secret     VARCHAR(255) NOT NULL,
+  group_name VARCHAR(255) NOT NULL,
   contest_id VARCHAR(255) NOT NULL,
-  CONSTRAINT UQ_groups_name UNIQUE (name),
   CONSTRAINT PK_groups PRIMARY KEY (group_id),
   CONSTRAINT FK_groups_contest_id FOREIGN KEY (contest_id) REFERENCES contests (contest_id)
 );

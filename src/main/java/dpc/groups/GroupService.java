@@ -15,7 +15,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
-import java.util.UUID;
 
 /**
  * Created by jiaweizhang on 9/28/2016.
@@ -34,17 +33,19 @@ public class GroupService extends Service {
         if (!checkService.contestExists(contestId)) {
             throw new IllegalArgumentException("contest id does not exist");
         }
-        // check that group name isn't taken
-        if (checkService.groupNameExists(request.name)) {
-            throw new IllegalArgumentException("group name already exists");
+
+        // check that group name is valid
+        if (request.groupName == null || request.groupName.equals("")) {
+            throw new IllegalArgumentException("group name cannot be empty or null");
         }
-        // check that secret isn't taken and is not ""
-        if (request.secret.equals("") || checkService.groupSecretExists(request.secret)) {
-            throw new IllegalArgumentException("group secret already exists");
+
+        // check that group name isn't taken
+        if (checkService.groupNameExists(request.groupName)) {
+            throw new IllegalArgumentException("group name already exists");
         }
 
         // add to groups and group_membership tables
-        createGroupAndInsertUserSQL(request.name, request.secret, contestId, request.userId);
+        createGroupAndInsertUserSQL(request.groupName, contestId, request.userId);
 
         // return success
         return new StdResponse(200, true, "Successfully created group");
@@ -58,8 +59,8 @@ public class GroupService extends Service {
             throw new IllegalArgumentException("contest id does not exist");
         }
 
-        // if secret is empty, join a group with no secret or create one if no group exists
-        if (request.secret == null || request.secret.length() == 0) {
+        // if groupName is empty, join a group with no groupName or create one if no group exists
+        if (request.groupName == null || request.groupName.length() == 0) {
             if (checkService.randomGroupExists()) {
                 long groupId = checkService.getRandomGroupId();
                 // check that user is not in group already
@@ -69,17 +70,17 @@ public class GroupService extends Service {
                 joinGroupSQL(groupId, request.userId);
                 return new StdResponse(200, true, "Successfully joined a random group");
             } else {
-                createGroupAndInsertUserSQL(UUID.randomUUID().toString(), "", contestId, request.userId);
+                createGroupAndInsertUserSQL("", contestId, request.userId);
                 return new StdResponse(200, true, "Successfully created new group and joined");
             }
         }
 
-        // check that secret exists
-        if (!checkService.groupSecretExists(request.secret)) {
-            throw new IllegalArgumentException("secret does not exist");
+        // check that groupName exists
+        if (!checkService.groupNameExists(request.groupName)) {
+            throw new IllegalArgumentException("groupName does not exist");
         }
 
-        long groupId = checkService.getGroupId(request.secret);
+        long groupId = checkService.getGroupId(request.groupName);
 
         // check that there are currently fewer than 3 members
         if (checkService.groupMemberCount(groupId) > 2) {
@@ -133,17 +134,16 @@ public class GroupService extends Service {
         return new StdResponse(200, true, "Successfully left group");
     }
 
-    private void createGroupAndInsertUserSQL(String name, String secret, String contestId, long userId) {
+    private void createGroupAndInsertUserSQL(String name, String contestId, long userId) {
         final String INSERT_SQL =
-                "INSERT INTO groups (name, secret, contest_id) VALUES (?, ?, ?)";
+                "INSERT INTO groups (group_name, contest_id) VALUES (?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jt.update(
                 connection -> {
                     PreparedStatement ps = connection.prepareStatement(INSERT_SQL, new String[]{"group_id"});
                     ps.setString(1, name);
-                    ps.setString(2, secret);
-                    ps.setString(3, contestId);
+                    ps.setString(2, contestId);
                     return ps;
                 },
                 keyHolder);
