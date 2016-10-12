@@ -4,10 +4,15 @@ CREATE SCHEMA public;
 
 /* Users table */
 CREATE TABLE IF NOT EXISTS users (
-  user_id BIGSERIAL    NOT NULL,
-  net_id  VARCHAR(255) NOT NULL,
+  user_id         BIGSERIAL    NOT NULL,
+  email           VARCHAR(255) NOT NULL,
+  name            VARCHAR(255) NOT NULL,
+  passhash        VARCHAR(255) NOT NULL,
+  school          VARCHAR(255) NOT NULL,
+  class_in_school VARCHAR(255) NOT NULL,
   CONSTRAINT PK_users PRIMARY KEY (user_id),
-  CONSTRAINT UQ_users_net_id UNIQUE (net_id)
+  CONSTRAINT UQ_users_email UNIQUE (email),
+  CONSTRAINT UQ_users_name UNIQUE (name)
 );
 
 /* Contests table */

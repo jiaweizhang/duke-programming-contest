@@ -1,7 +1,7 @@
 package dpc.admin;
 
-import dpc.auth.OAuthService;
-import dpc.auth.models.OAuthResponse;
+import dpc.auth.AuthService;
+import dpc.auth.models.AuthResponse;
 import dpc.std.Service;
 import dpc.std.models.StdResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +28,11 @@ import java.util.stream.Collectors;
 public class AdminService extends Service {
 
     @Autowired
-    private OAuthService oAuthService;
+    private AuthService authService;
 
-    public StdResponse getToken(String netId) {
-        long userId = oAuthService.createUserIfNotExists(netId);
-        String token = TokenUtility.generateToken(userId, netId);
-        return new OAuthResponse(200, true, "Successfully authenticated", token, userId, netId);
+    public StdResponse getToken(String userId) {
+        String token = TokenUtility.generateToken(Long.parseLong(userId));
+        return new AuthResponse(200, true, "Successfully authenticated", token);
     }
 
     public StdResponse upgradeDb() {

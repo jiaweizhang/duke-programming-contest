@@ -75,4 +75,14 @@ public class GlobalExceptionHandler extends Controller {
     public ResponseEntity handleAlreadyHaveCorrectSubmissionException(Exception e) {
         return wrap(new StdResponse(200, false, "You have already submitted the correct answer"));
     }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity handleIncorrectPasswordException(Exception e) {
+        return wrap(new StdResponse(200, false, "Incorrect password"));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity handleUserNotFoundException(Exception e) {
+        return wrap(new StdResponse(200, false, "User (email) not found"));
+    }
 }
