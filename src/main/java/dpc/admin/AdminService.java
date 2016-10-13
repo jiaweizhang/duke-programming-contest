@@ -5,8 +5,6 @@ import dpc.auth.models.AuthResponse;
 import dpc.std.Service;
 import dpc.std.models.StdResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 import utilities.TokenUtility;
 
@@ -14,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,19 +68,4 @@ public class AdminService extends Service {
         return sb.toString();
     }
 
-    public long createUser(String netId) {
-
-        final String INSERT_SQL =
-                "INSERT INTO users (net_id) VALUES (?)";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jt.update(
-                connection -> {
-                    PreparedStatement ps = connection.prepareStatement(INSERT_SQL, new String[]{"user_id"});
-                    ps.setString(1, netId);
-                    return ps;
-                },
-                keyHolder);
-        return keyHolder.getKey().longValue();
-    }
 }

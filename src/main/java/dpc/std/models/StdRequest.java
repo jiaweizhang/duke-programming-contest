@@ -5,5 +5,4 @@ package dpc.std.models;
  */
 public class StdRequest {
     public long userId;
-    public String netId;
 }

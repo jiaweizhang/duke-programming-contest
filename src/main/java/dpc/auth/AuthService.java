@@ -68,7 +68,7 @@ public class AuthService extends dpc.std.Service {
     }
 
     private long getUserId(String email) {
-        List<Long> userIds = jt.queryForList("SELECT userId FROM users WHERE email = ?", Long.class, email);
+        List<Long> userIds = jt.queryForList("SELECT user_id FROM users WHERE email = ?", Long.class, email);
         if (userIds.size() == 1) {
             return userIds.get(0);
         } else {
