@@ -11,13 +11,12 @@ import java.util.Properties;
  */
 
 public class TokenUtility {
-    public static String generateToken(long userId, String netId) {
+    public static String generateToken(long userId) {
         Properties p = PropertiesLoader.loadPropertiesFromPackage("security.properties");
         String secretKey = p.getProperty("secretKey");
 
-        return Jwts.builder().setSubject(netId)
+        return Jwts.builder().setSubject(Long.toString(userId))
                 .claim("userId", userId)
-                .claim("netId", netId)
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 

@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 public class ContestResponse extends StdResponse {
 
     private String contestId;
-    private String name;
+    private String contestName;
     private Timestamp startTime;
     private Timestamp endTime;
 
@@ -19,7 +19,7 @@ public class ContestResponse extends StdResponse {
         this.success = success;
         this.message = message;
         this.contestId = contest.getContestId();
-        this.name = contest.getName();
+        this.contestName = contest.getContestName();
         this.startTime = contest.getStartTime();
         this.endTime = contest.getEndTime();
     }
@@ -28,8 +28,8 @@ public class ContestResponse extends StdResponse {
         return contestId;
     }
 
-    public String getName() {
-        return name;
+    public String getContestName() {
+        return contestName;
     }
 
     public Timestamp getStartTime() {

@@ -29,7 +29,6 @@ public class Controller {
         try {
             Claims claims = TokenUtility.retrieveClaims(jwt);
             stdRequest.userId = Long.valueOf(claims.get("userId").toString());
-            stdRequest.netId = (String) claims.get("netId");
         } catch (Exception e) {
             throw new JwtAuthException();
         }
