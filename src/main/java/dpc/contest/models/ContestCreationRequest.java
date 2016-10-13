@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 public class ContestCreationRequest extends StdRequest {
     public String contestId;
-    public String name;
+    public String contestName;
     public Timestamp startTime;
     public Timestamp endTime;
 }

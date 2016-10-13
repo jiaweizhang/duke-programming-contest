@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  */
 public class Contest {
     private String contestId;
-    private String name;
+    private String contestName;
     private Timestamp startTime;
     private Timestamp endTime;
 
@@ -19,12 +19,12 @@ public class Contest {
         this.contestId = contestId;
     }
 
-    public String getName() {
-        return name;
+    public String getContestName() {
+        return contestName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setContestName(String contestName) {
+        this.contestName = contestName;
     }
 
     public Timestamp getStartTime() {

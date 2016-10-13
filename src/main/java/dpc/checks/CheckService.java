@@ -22,23 +22,15 @@ public class CheckService extends Service {
 
     public boolean groupNameExists(String groupName) {
         return jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 from groups WHERE name = ?);",
+                "SELECT EXISTS(SELECT 1 from groups WHERE group_name = ?);",
                 Boolean.class,
                 groupName
         );
     }
 
-    public boolean groupSecretExists(String secret) {
-        return jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 from groups WHERE secret = ?);",
-                Boolean.class,
-                secret
-        );
-    }
-
     public boolean randomGroupExists() {
         return jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 FROM groups WHERE secret = '')",
+                "SELECT EXISTS(SELECT 1 FROM groups WHERE group_name = '')",
                 Boolean.class
         );
     }
@@ -46,7 +38,7 @@ public class CheckService extends Service {
     public long getRandomGroupId() {
         // assuming one exists
         return jt.queryForObject(
-                "SELECT group_id FROM groups WHERE secret = '' ORDER BY group_id DESC LIMIT 1",
+                "SELECT group_id FROM groups WHERE group_name = '' ORDER BY group_id DESC LIMIT 1",
                 Long.class
         );
     }
@@ -58,19 +50,11 @@ public class CheckService extends Service {
         );
     }
 
-    public long groupMemberCount(String secret) {
+    public long getGroupId(String groupName) {
         return jt.queryForObject(
-                "SELECT COUNT(*) FROM group_membership WHERE group_id = (SELECT group_id FROM groups WHERE secret = ?)",
+                "SELECT group_id FROM groups WHERE group_name = ?",
                 Long.class,
-                secret
-        );
-    }
-
-    public long getGroupId(String secret) {
-        return jt.queryForObject(
-                "SELECT group_id FROM groups WHERE secret = ?",
-                Long.class,
-                secret
+                groupName
         );
     }
 

@@ -63,19 +63,18 @@ public class GroupTest {
         CreateGroupRequest createGroupRequest = new CreateGroupRequest();
         createGroupRequest.userId = userId1;
         createGroupRequest.netId = netId1;
-        createGroupRequest.name = "Valid group name";
-        createGroupRequest.secret = "good secret";
+        createGroupRequest.groupName = "jumping_zebras";
         StdResponse stdResponse = groupService.createGroup(createGroupRequest, CONTEST_ID);
         assert (stdResponse.success);
     }
 
     @Test
-    public void joinGroupWithoutSecret() {
+    public void joinGroupWithoutName() {
         joinGroupWithoutSecretWhenThereExistNoGroups();
         JoinGroupRequest joinGroupRequest = new JoinGroupRequest();
         joinGroupRequest.userId = userId2;
         joinGroupRequest.netId = netId2;
-        joinGroupRequest.secret = "";
+        joinGroupRequest.groupName = null;
         StdResponse stdResponse = groupService.joinGroup(joinGroupRequest, CONTEST_ID);
         assert (stdResponse.success);
     }
@@ -85,7 +84,7 @@ public class GroupTest {
         JoinGroupRequest joinGroupRequest = new JoinGroupRequest();
         joinGroupRequest.userId = userId1;
         joinGroupRequest.netId = netId1;
-        joinGroupRequest.secret = "";
+        joinGroupRequest.groupName = "";
         StdResponse stdResponse = groupService.joinGroup(joinGroupRequest, CONTEST_ID);
         assert (stdResponse.success);
     }
@@ -96,21 +95,21 @@ public class GroupTest {
         JoinGroupRequest joinGroupRequest = new JoinGroupRequest();
         joinGroupRequest.userId = userId2;
         joinGroupRequest.netId = netId2;
-        joinGroupRequest.secret = "good secret";
+        joinGroupRequest.groupName = "jumping_zebras";
         StdResponse stdResponse = groupService.joinGroup(joinGroupRequest, CONTEST_ID);
         assert (stdResponse.success);
 
         JoinGroupRequest joinGroupRequest1 = new JoinGroupRequest();
         joinGroupRequest1.userId = userId3;
         joinGroupRequest1.netId = netId3;
-        joinGroupRequest1.secret = "good secret";
+        joinGroupRequest1.groupName = "jumping_zebras";
         StdResponse stdResponse1 = groupService.joinGroup(joinGroupRequest1, CONTEST_ID);
         assert (stdResponse1.success);
 
         JoinGroupRequest joinGroupRequest2 = new JoinGroupRequest();
         joinGroupRequest2.userId = userId4;
         joinGroupRequest2.netId = netId4;
-        joinGroupRequest2.secret = "good secret";
+        joinGroupRequest2.groupName = "jumping_zebras";
         try {
             groupService.joinGroup(joinGroupRequest2, CONTEST_ID);
             fail("should have failed");

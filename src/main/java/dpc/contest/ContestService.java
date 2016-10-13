@@ -29,14 +29,14 @@ public class ContestService extends Service {
     private CheckService checkService;
 
     public StdResponse getContests() {
-        List<Contest> contests = this.jt.query("SELECT contest_id, name, start_time, end_time FROM contests",
+        List<Contest> contests = this.jt.query("SELECT contest_id, contest_name, start_time, end_time FROM contests",
                 new ContestMapper());
         return new ContestsResponse(200, true, "Successfully retrieved contests", contests);
     }
 
     public StdResponse getContest(String contestId) {
         try {
-            Contest contest = this.jt.queryForObject("SELECT contest_id, name, start_time, end_time FROM contests WHERE contest_id = ?",
+            Contest contest = this.jt.queryForObject("SELECT contest_id, contest_name, start_time, end_time FROM contests WHERE contest_id = ?",
                     new Object[]{contestId},
                     new ContestMapper());
             return new ContestResponse(200, true, "Successfully retrieve contest", contest);
@@ -52,8 +52,8 @@ public class ContestService extends Service {
             return new StdResponse(200, false, "Contest id is taken already");
         }
 
-        this.jt.update("INSERT INTO contests (contest_id, name, start_time, end_time) VALUES (?, ?, ?, ?)",
-                req.contestId, req.name, req.startTime, req.endTime);
+        this.jt.update("INSERT INTO contests (contest_id, contest_name, start_time, end_time) VALUES (?, ?, ?, ?)",
+                req.contestId, req.contestName, req.startTime, req.endTime);
 
         return new StdResponse(200, true, "Contest created successfully");
     }
@@ -62,7 +62,7 @@ public class ContestService extends Service {
         public Contest mapRow(ResultSet rs, int rowNum) throws SQLException {
             Contest contest = new Contest();
             contest.setContestId(rs.getString("contest_id"));
-            contest.setName(rs.getString("name"));
+            contest.setContestName(rs.getString("contest_name"));
             contest.setStartTime(rs.getTimestamp("start_time"));
             contest.setEndTime(rs.getTimestamp("end_time"));
             return contest;
