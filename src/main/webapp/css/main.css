@@ -1,0 +1,272 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  --theme-color: #4c5e89;
+  --sidebar-highlight: lightblue;
+}
+
+/* SIDEBAR */
+
+.sidebar-nav {
+  width: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: #323232;
+  border-right: 1px solid white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-tab {
+  color: white;
+  font-size: 24px;
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+}
+
+.sidebar-tab:hover {
+  background-color: #5a5a5a;
+}
+
+.sidebar-tab-icon {
+  width: 60px;
+  height: 30px;
+  margin-top: 15px;
+}
+
+.sidebar-tab.selected {
+  border-left: 3px solid var(--sidebar-highlight);
+  width: 57px;
+}
+
+.sidebar-tab.selected .sidebar-tab-icon {
+  width: 54px;
+}
+
+.sidebar-tab-label {
+  position: absolute;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 20px;
+  border-radius: 5px;
+  top: 10px;
+  left: 70px;
+  background-color: rgba(0,0,0,0.9);
+  z-index: 1;
+}
+
+.sidebar-tab.selected .sidebar-tab-label {
+  left: 67px;
+}
+
+.sidebar-tab-label.hidden {
+  display: none;
+}
+
+/* HOME */
+
+.home-tab-getting-started {
+  position: absolute;
+}
+
+.home-tab-header {
+  font-size: 24px;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.home-tab-getting-started-item:first-child {
+  padding-top: 0;
+}
+
+.home-tab-getting-started-item {
+  padding: 20px;
+  padding-bottom: 0;
+}
+
+.home-intro {
+  width: 600px;
+  height: 500px;
+  position: absolute;
+}
+
+/* REGISTRATION */
+
+.registration,
+.registration-form-container {
+  position: absolute;
+}
+
+.registration-form-login {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.registration-divider {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+.registration-form-sign-up {
+  margin-left: 80px;
+  margin-top: 10px;
+}
+
+/* PROBLEMS */
+
+.problem-preview {
+  width: 600px;
+  height: 100px;
+  margin: 30px;
+  cursor: pointer;
+  position: relative;
+}
+
+.problem-preview:hover {
+  background-color: #dbdbdb;
+}
+
+.problem-description {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 60px;
+}
+
+.problem-number-container {
+  height: 100px;
+  width: 60px;
+  text-align: center;
+  background-color: #001A57;
+  position: absolute;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  left: 0;
+  top: 0;
+}
+
+.problem-number {
+  font-size: 32px;
+  line-height: 40px;
+  color: white;
+  margin-top: 30px;
+}
+
+.problem-title {
+  font-size: 24px;
+}
+
+.problem-subtitle {
+  font-size: 14px;
+  color: gray;
+}
+
+/* MISCELLANEOUS */
+
+.card {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid lightgray;
+}
+
+.text-field {
+  background-color: white;
+  padding: 0;
+  padding-bottom: 0;
+  height: 30px;
+  width: 300px;
+  font-size: 14px;
+  border: none;
+  border-bottom: 1px solid lightgray;
+  outline: none;
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 10px;
+  display: block;
+}
+
+.text-field:focus {
+  border: none;
+  border-bottom: 3px solid var(--theme-color);
+  margin-bottom: -2px;
+}
+
+.text-field-container {
+  margin-top: 10px;
+}
+
+.main-content {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  background-color: #e4e4e4;
+}
+
+.tab-title {
+  font-size: 42px;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  width: 100%;
+  height: 60px;
+  background-color: var(--theme-color); /* #006600 alternative */
+  color: white;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+
+.link-button {
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid white;
+  width: 120px;
+  text-align: center;
+
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;
+}
+
+.link-button:hover {
+  border-color: gray;
+}
+
+.link-button.login {
+  background-color: var(--theme-color);
+  margin-top: 40px;
+  margin-left: 80px;
+}
+
+.link-button.register {
+  background-color: #79c879;
+}
+
+.link-button.groups {
+  background-color: #ffae19;
+}
+
+.unselectable {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;
+}
