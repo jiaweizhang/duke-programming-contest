@@ -7,7 +7,9 @@ import dpc.contest.models.ContestCreationRequest;
 import dpc.exceptions.GroupFullException;
 import dpc.groups.GroupService;
 import dpc.groups.models.CreateGroupRequest;
+import dpc.groups.models.GroupInfoResponse;
 import dpc.groups.models.JoinGroupRequest;
+import dpc.std.models.StdRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -77,6 +79,15 @@ public class GroupTest {
     }
 
     @Test
+    public void groupInfo() {
+        createGroup();
+
+        StdRequest stdRequest = ModelFactory.stdRequest(1);
+
+        assert (groupService.infoGroup(stdRequest, CONTEST_ID).success);
+    }
+
+    @Test
     public void joinGroupWithoutNameWhenThereExistNoGroupsEmpty() {
         JoinGroupRequest joinGroupRequest = ModelFactory.joinGroupRequest(
                 "",
@@ -110,15 +121,19 @@ public class GroupTest {
     public void joinGroupWithSecret() {
         createGroup();
 
+        StdRequest stdRequest = ModelFactory.stdRequest(1);
+
+        String secret = ((GroupInfoResponse) groupService.infoGroup(stdRequest, CONTEST_ID)).secret;
+
         for (int i = 2; i <= 3; i++) {
             JoinGroupRequest joinGroupRequest = ModelFactory.joinGroupRequest(
-                    "jumping zebras", i
+                    secret, i
             );
             assert (groupService.joinGroup(joinGroupRequest, CONTEST_ID).success);
         }
 
         JoinGroupRequest joinGroupRequest2 = ModelFactory.joinGroupRequest(
-                "jumping zebras", 4
+                secret, 4
         );
         try {
             groupService.joinGroup(joinGroupRequest2, CONTEST_ID);
