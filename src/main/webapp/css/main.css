@@ -92,8 +92,8 @@ body {
 }
 
 .home-intro {
-  width: 600px;
-  height: 500px;
+  left: 50px;
+  top: 50px;
   position: absolute;
 }
 
@@ -102,6 +102,12 @@ body {
 .registration,
 .registration-form-container {
   position: absolute;
+}
+
+.registration-form-container {
+  border: 1px solid gray;
+  border-radius: 10px;
+  box-shadow: 0 0 2px black;
 }
 
 .registration-form-login {

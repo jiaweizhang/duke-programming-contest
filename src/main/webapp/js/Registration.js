@@ -1,7 +1,7 @@
 const React = require('react');
 const TITLE_HEIGHT = 100;
 const CONTAINER_WIDTH = 500;
-const CONTAINER_HEIGHT = 370;
+const CONTAINER_HEIGHT = 420;
 
 export class Registration extends React.Component{
   constructor(props) {
@@ -34,8 +34,6 @@ export class Registration extends React.Component{
         <div
           className="registration card"
           style={{
-            left: '50px',
-            top: '50px',
             width: width,
             height: height
           }}>

@@ -8,7 +8,7 @@
     "build": "browserify -t [ babelify ] main.js  | uglifyjs -mc warnings=false > bundle.js"
   },
   "author": "Kevin He",
-  "license": "ISC",
+  "license": "GPL 3.0",
   "dependencies": {
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",

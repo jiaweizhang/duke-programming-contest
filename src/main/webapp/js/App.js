@@ -19,7 +19,7 @@ export class App extends React.Component{
       <div>
         <div id="content-container">
           <Router history={hashHistory}>
-            <Route path="/~kevinhe/dpc" component={Content}>
+            <Route path="" component={Content}>
               <Route path="/" component={Home}/>
               <Route path="/register" component={Registration}/>
               <Route path="/problems" component={Problems}/>

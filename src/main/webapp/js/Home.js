@@ -18,8 +18,6 @@ export class Home extends React.Component{
         <div
           className="home-intro card"
           style={{
-            left: '50px',
-            top: '50px',
             width: width,
             height: height
           }}>
@@ -33,9 +31,6 @@ export class Home extends React.Component{
               top: (height - CONTAINER_HEIGHT - TITLE_HEIGHT)/2 + TITLE_HEIGHT + 'px',
               width: CONTAINER_WIDTH + 'px',
               height: CONTAINER_HEIGHT + 'px',
-              border: '1px solid gray',
-              borderRadius: '10px',
-              boxShadow: '0 0 2px black'
             }}>
             <div className="home-tab-header">
               > Getting Started
