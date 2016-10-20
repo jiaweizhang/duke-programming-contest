@@ -44,4 +44,11 @@ public class GroupController extends Controller {
         StdRequest stdRequest = pre(request);
         return wrap(groupService.leaveGroup(stdRequest, contestId));
     }
+
+    @RequestMapping(value = "/info/{contestId}",
+            method = RequestMethod.GET)
+    public ResponseEntity infoGroup(@PathVariable(value = "contestId") String contestId, final HttpServletRequest request) {
+        StdRequest stdRequest = pre(request);
+        return wrap(groupService.infoGroup(stdRequest, contestId));
+    }
 }

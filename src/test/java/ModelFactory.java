@@ -3,6 +3,7 @@ import dpc.auth.models.RegisterRequest;
 import dpc.contest.models.ContestCreationRequest;
 import dpc.groups.models.CreateGroupRequest;
 import dpc.groups.models.JoinGroupRequest;
+import dpc.std.models.StdRequest;
 
 import java.sql.Timestamp;
 
@@ -10,6 +11,12 @@ import java.sql.Timestamp;
  * Created by jiaweizhang on 10/12/2016.
  */
 class ModelFactory {
+    static StdRequest stdRequest(long userId) {
+        StdRequest stdRequest = new StdRequest();
+        stdRequest.userId = userId;
+        return stdRequest;
+    }
+
     static RegisterRequest registerRequest(String email, String name, String password, String school, String classInSchool) {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.email = email;
@@ -44,9 +51,9 @@ class ModelFactory {
         return createGroupRequest;
     }
 
-    static JoinGroupRequest joinGroupRequest(String groupName, long userId) {
+    static JoinGroupRequest joinGroupRequest(String secret, long userId) {
         JoinGroupRequest joinGroupRequest = new JoinGroupRequest();
-        joinGroupRequest.groupName = groupName;
+        joinGroupRequest.secret = secret;
         joinGroupRequest.userId = userId;
         return joinGroupRequest;
     }
