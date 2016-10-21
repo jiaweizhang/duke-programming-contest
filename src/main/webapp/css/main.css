@@ -74,6 +74,8 @@ body {
 
 .home-tab-getting-started {
   position: absolute;
+  border: 1px solid gray;
+  border-radius: 10px;
 }
 
 .home-tab-header {
@@ -91,7 +93,8 @@ body {
   padding-bottom: 0;
 }
 
-.home-intro {
+.home-intro,
+.registration {
   left: 50px;
   top: 50px;
   position: absolute;
@@ -99,18 +102,16 @@ body {
 
 /* REGISTRATION */
 
-.registration,
-.registration-form-container {
-  position: absolute;
-}
-
 .registration-form-container {
   border: 1px solid gray;
   border-radius: 10px;
   box-shadow: 0 0 2px black;
+  position: absolute;
+  overflow: hidden;
 }
 
-.registration-form-login {
+.registration-form-login,
+.signup-form-header {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
@@ -123,9 +124,31 @@ body {
   background-image: linear-gradient(to right, #ccc, #333, #ccc);
 }
 
-.registration-form-sign-up {
+.registration-form-sign-up-link {
   margin-left: 80px;
   margin-top: 10px;
+}
+
+.registration-fields {
+  margin-top: 40px;
+}
+
+.signup-form {
+  position: absolute;
+  width: 300px;
+  left: 100px;
+}
+
+.signup-form-header {
+  margin-top: 20px;
+}
+
+.signup-fields{
+  margin-top: 20px;
+}
+
+.signup-buttons {
+  margin-top: 30px;
 }
 
 /* PROBLEMS */
@@ -241,6 +264,7 @@ body {
   border: 1px solid white;
   width: 120px;
   text-align: center;
+  box-shadow: 0 0 1px black;
 
   -webkit-user-drag: none;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -266,6 +290,20 @@ body {
 
 .link-button.groups {
   background-color: #ffae19;
+}
+
+.link-button.signup-submit {
+  background-color: var(--theme-color);
+}
+
+.link-button.signup-cancel {
+  background-color: lightgray;
+  margin-left: 56px;
+}
+
+.link-button.signup-submit,
+.link-button.signup-cancel {
+  width: 100px;
 }
 
 .unselectable {

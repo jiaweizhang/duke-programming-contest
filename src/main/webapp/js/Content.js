@@ -11,8 +11,25 @@ export class Content extends React.Component{
     }
 
     this.state = {
-      dimensions: this.calculateDimensions()
+      dimensions: this.calculateDimensions(),
+      sessionData: this.initSession()
     }
+  }
+
+  initSession() {
+    let sessionData = {};
+    console.log('initializing session');
+    if (localStorage.getItem('account')) {
+      console.log('account loaded');
+    }
+    if (localStorage.getItem('contest')) {
+      console.log('contest loaded');
+    }
+    return sessionData;
+  }
+
+  updateSession(key, value) {
+    
   }
 
   calculateDimensions() {
@@ -33,7 +50,15 @@ export class Content extends React.Component{
           width: (this.state.dimensions.width - 60) + 'px',
           height: this.state.dimensions.height + 'px'
         }}>
-          {React.cloneElement(this.props.children, {dimensions: this.state.dimensions})}
+          {
+            React.cloneElement(
+              this.props.children,
+              {
+                dimensions: this.state.dimensions,
+                sessionData: this.state.sessionData
+              }
+            )
+          }
         </div>
       </div>
     );
