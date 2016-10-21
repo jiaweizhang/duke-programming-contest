@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   school          VARCHAR(255) NOT NULL,
   class_in_school VARCHAR(255) NOT NULL,
   CONSTRAINT PK_users PRIMARY KEY (user_id),
-  CONSTRAINT UQ_users_email UNIQUE (email),
-  CONSTRAINT UQ_users_name UNIQUE (name)
+  CONSTRAINT UQ_users_email UNIQUE (email)
 );
 
 /* Contests table */

@@ -28,7 +28,7 @@ public class AuthController extends Controller {
 
     @RequestMapping(value = "/login",
             method = RequestMethod.POST,
-            headers = {"Content-type-application/json"})
+            headers = {"Content-type=application/json"})
     public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
         return wrap(authService.login(loginRequest));
     }
