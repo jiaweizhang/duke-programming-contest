@@ -79,3 +79,4 @@ hs_err_pid*
 ### WebApp ###
 src/main/webapp/node_modules
 src/main/webapp/font-awesome
+src/main/webapp/bundle.js
