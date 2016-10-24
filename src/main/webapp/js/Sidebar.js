@@ -6,10 +6,6 @@ const sidebarTabs = [
     name: "Home"
   },
   {
-    icon: "clipboard",
-    name: "Register"
-  },
-  {
     icon: "tasks",
     name: "Problems"
   },
@@ -32,15 +28,8 @@ export class Sidebar extends React.Component{
     super(props);
 
     this.state = {
-      selected: 0,
       hovered: -1
     }
-  }
-
-  selectTab(index) {
-    this.setState({
-      selected: index
-    });
   }
 
   mouseEnterTab(index) {
@@ -62,11 +51,10 @@ export class Sidebar extends React.Component{
         <Link key={tab.name + "-tab"} to={"/" + (tab.name.toLowerCase() !== "home" ? tab.name.toLowerCase() : "")}>
           <div
             className={
-              this.state.selected === index
+              this.props.tabSelected === index
               ? "sidebar-tab selected"
               : "sidebar-tab"
             }
-            onClick={this.selectTab.bind(this, index)}
             onMouseEnter={this.mouseEnterTab.bind(this,index)}
             onMouseLeave={this.mouseLeaveTab.bind(this, index)}>
             <div className="sidebar-tab-icon">

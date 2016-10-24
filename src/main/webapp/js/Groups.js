@@ -5,6 +5,10 @@ export class Groups extends React.Component{
     super(props);
   }
 
+  componentDidMount() {
+    this.props.selectTab(3);
+  }
+
   render() {
     return (
       <div>

@@ -2,7 +2,6 @@ const React = require('react');
 const Sidebar = require('./Sidebar');
 const Content = require('./Content');
 const Home = require('./Home');
-const Registration = require('./Registration');
 const Problems = require('./Problems');
 const Groups = require('./Groups');
 const Leaderboard = require('./Leaderboard');
@@ -21,7 +20,6 @@ export class App extends React.Component{
           <Router history={hashHistory}>
             <Route path="" component={Content}>
               <Route path="/" component={Home}/>
-              <Route path="/register" component={Registration}/>
               <Route path="/problems" component={Problems}/>
               <Route path="/groups" component={Groups}/>
               <Route path="/leaderboard" component={Leaderboard}/>

@@ -1,9 +1,11 @@
 const React = require('react');
+const SetupScreen = require('./SetupScreen');
 const Sidebar = require('./Sidebar');
 
 export class Content extends React.Component{
   constructor(props) {
     super(props);
+    console.log('content init');
     window.onresize = () => {
       this.setState({
         dimensions: this.calculateDimensions()
@@ -12,8 +14,15 @@ export class Content extends React.Component{
 
     this.state = {
       dimensions: this.calculateDimensions(),
+      tabSelected: 0,
       sessionData: this.initSession()
     }
+  }
+
+  selectTab(index) {
+    this.setState({
+      tabSelected: index
+    });
   }
 
   initSession() {
@@ -29,7 +38,7 @@ export class Content extends React.Component{
   }
 
   updateSession(key, value) {
-    
+
   }
 
   calculateDimensions() {
@@ -43,8 +52,16 @@ export class Content extends React.Component{
   render() {
     return (
       <div>
-        <div id="sidebar-container">
-          <Sidebar />
+        <div className="setup-screen" style={{
+          width: this.state.dimensions.width + 'px',
+          height: this.state.dimensions.height + 'px'
+        }}>
+          <SetupScreen dimensions={this.state.dimensions} />
+        </div>
+        <div className="sidebar-container">
+          <Sidebar
+            tabSelected={this.state.tabSelected}
+            selectTab={this.selectTab.bind(this)}/>
         </div>
         <div className="main-content" style={{
           width: (this.state.dimensions.width - 60) + 'px',
@@ -55,7 +72,8 @@ export class Content extends React.Component{
               this.props.children,
               {
                 dimensions: this.state.dimensions,
-                sessionData: this.state.sessionData
+                sessionData: this.state.sessionData,
+                selectTab: this.selectTab.bind(this)
               }
             )
           }

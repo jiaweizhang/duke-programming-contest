@@ -5,6 +5,10 @@ export class Leaderboard extends React.Component{
     super(props);
   }
 
+  componentDidMount() {
+    this.props.selectTab(4);
+  }
+
   render() {
     return (
       <div>

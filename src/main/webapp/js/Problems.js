@@ -25,6 +25,10 @@ export class Problems extends React.Component{
     super(props);
   }
 
+  componentDidMount() {
+    this.props.selectTab(2);
+  }
+
   renderProblemPreviews() {
     let elements = [];
     problems.forEach((problem, index) => {

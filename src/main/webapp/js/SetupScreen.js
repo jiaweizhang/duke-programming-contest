@@ -3,18 +3,20 @@ const $ = require("jquery");
 const TITLE_HEIGHT = 100;
 const CONTAINER_WIDTH = 500;
 const CONTAINER_HEIGHT = 450;
+const screens = {
+  CONTEST: 0,
+  LOGIN: 1,
+  SIGNUP: 2,
+  SUCCESS: 3
+}
 
-export class Registration extends React.Component{
+export class SetupScreen extends React.Component{
   constructor(props) {
     super(props);
 
-    // index key
-    // 0 -> Register/Signup
-    // 1 -> Signup form
-    // 2 -> Success screen
     this.state = {
       error: false,
-      index: 0
+      index: screens.CONTEST
     }
   }
 
@@ -42,7 +44,7 @@ export class Registration extends React.Component{
   showSignUpForm(event) {
     event.preventDefault();
     this.setState({
-      index: 1
+      index: screens.SIGNUP
     });
   }
 
@@ -82,13 +84,40 @@ export class Registration extends React.Component{
     }
 
     this.setState({
-      index: 0
+      index: screens.SUCCESS
     });
+  }
+
+  renderContests() {
+    const contests = $.ajax({
+      contentType: 'application/json',
+      url: 'api/contests',
+      type: 'GET'
+    });
+
+    $.when(contests).done((response) => {
+      console.log(response);
+    })
   }
 
   displayForm() {
     switch (this.state.index) {
       case 0:
+        this.renderContests();
+        return (
+          <div className="contest-selector" style={{
+            left: (CONTAINER_WIDTH - 400)/2 + 'px',
+            top: (CONTAINER_HEIGHT - 350)/2 + 'px'
+          }}>
+            <div className="contest-selector-header">
+              Select A Competition
+            </div>
+            <div className="open-contests">
+              woot
+            </div>
+          </div>
+        );
+      case 1:
         return (
           <div style={{
             width: '300px',
@@ -145,7 +174,7 @@ export class Registration extends React.Component{
             </div>
           </div>
         );
-      case 1:
+      case 2:
         return (
           <div className="signup-form" style={{height: CONTAINER_HEIGHT + 'px'}}>
             <div className="signup-form-header">
@@ -207,38 +236,50 @@ export class Registration extends React.Component{
             </div>
           </div>
         );
+      case 3:
+        return(
+          <div className="signup-success" style={{
+            left: (CONTAINER_WIDTH-400)/2 + 'px',
+            top: (CONTAINER_HEIGHT-300)/2 + 'px'
+          }}>
+            <div className="signup-success-message">
+              You&lsquo;ve successfully signed up!
+            </div>
+            <div className="signup-checkmark-container">
+              <img
+                className="signup-checkmark"
+                src="assets/checkmark.png"
+                width="150"
+                height="150"/>
+            </div>
+            <div className="link-button signup-success-done">
+              Ok
+            </div>
+          </div>
+        );
     }
   }
 
   render() {
-    const width = this.props.dimensions.width - 160;
-    const height = this.props.dimensions.height - 100;
+    const width = this.props.dimensions.width;
+    const height = this.props.dimensions.height;
 
     return (
       <div className="registration-tab">
         <div
-          className="registration card"
+          id="setup-screen-container"
+          className="setup-screen-container"
           style={{
-            width: width,
-            height: height
+            left: (width - CONTAINER_WIDTH)/2 + 'px',
+            top: (height - CONTAINER_HEIGHT)/2 + 'px',
+            width: CONTAINER_WIDTH + 'px',
+            height: CONTAINER_HEIGHT + 'px',
           }}>
-          <div className="tab-title">
-            Registration
-          </div>
-          <div
-            className="registration-form-container"
-            style={{
-              left: (width - CONTAINER_WIDTH)/2 + 'px',
-              top: (height - CONTAINER_HEIGHT - TITLE_HEIGHT)/2 + TITLE_HEIGHT + 'px',
-              width: CONTAINER_WIDTH + 'px',
-              height: CONTAINER_HEIGHT + 'px',
-            }}>
-            {this.displayForm()}
-          </div>
+          {this.displayForm()}
         </div>
       </div>
     );
   }
 }
 
-module.exports = Registration;
+module.exports = SetupScreen;

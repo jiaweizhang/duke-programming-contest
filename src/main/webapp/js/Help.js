@@ -5,6 +5,10 @@ export class Help extends React.Component{
     super(props);
   }
 
+  componentDidMount() {
+    this.props.selectTab(5);
+  }
+
   render() {
     return (
       <div>

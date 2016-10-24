@@ -9,6 +9,10 @@ export class Home extends React.Component{
     super(props);
   }
 
+  componentDidMount() {
+    this.props.selectTab(0);
+  }
+
   render() {
     const width = this.props.dimensions.width - 160;
     const height = this.props.dimensions.height - 100;

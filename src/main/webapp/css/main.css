@@ -93,22 +93,43 @@ body {
   padding-bottom: 0;
 }
 
-.home-intro,
-.registration {
+.home-intro {
   left: 50px;
   top: 50px;
   position: absolute;
 }
 
-/* REGISTRATION */
+/* SETUP SCREEN*/
 
-.registration-form-container {
+.setup-screen {
+  background-color: rgba(0,0,0,0.9);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.setup-screen-container {
   border: 1px solid gray;
   border-radius: 10px;
   box-shadow: 0 0 2px black;
   position: absolute;
   overflow: hidden;
+  background-color: white;
 }
+
+.contest-selector {
+  width: 400px;
+  height: 350px;
+  position: absolute;
+}
+
+.contest-selector-header {
+  text-align: center;
+  font-size: 28px;
+}
+
+/* REGISTRATION */
 
 .registration-form-login,
 .signup-form-header {
@@ -149,6 +170,28 @@ body {
 
 .signup-buttons {
   margin-top: 30px;
+}
+
+.signup-success {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  left: 50px;
+}
+
+.signup-success-message {
+  text-align: center;
+  font-size: 24px;
+}
+
+.signup-checkmark-container {
+  margin-left: 125px;
+  margin-top: 40px;
+  border-radius: 75px;
+}
+
+.signup-checkmark {
+  border-radius: 75px;
 }
 
 /* PROBLEMS */
@@ -304,6 +347,13 @@ body {
 .link-button.signup-submit,
 .link-button.signup-cancel {
   width: 100px;
+}
+
+.link-button.signup-success-done {
+  background-color: var(--theme-color);
+  margin-top: 40px;
+  width: 100px;
+  margin-left: 138px;
 }
 
 .unselectable {
