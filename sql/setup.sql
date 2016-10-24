@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   school          VARCHAR(255) NOT NULL,
   class_in_school VARCHAR(255) NOT NULL,
   CONSTRAINT PK_users PRIMARY KEY (user_id),
-  CONSTRAINT UQ_users_email UNIQUE (email),
-  CONSTRAINT UQ_users_name UNIQUE (name)
+  CONSTRAINT UQ_users_email UNIQUE (email)
 );
 
 /* Contests table */
@@ -28,6 +27,7 @@ CREATE TABLE IF NOT EXISTS contests (
 CREATE TABLE IF NOT EXISTS groups (
   group_id   BIGSERIAL    NOT NULL,
   group_name VARCHAR(255) NOT NULL,
+  secret     VARCHAR(255) NOT NULL,
   contest_id VARCHAR(255) NOT NULL,
   CONSTRAINT PK_groups PRIMARY KEY (group_id),
   CONSTRAINT FK_groups_contest_id FOREIGN KEY (contest_id) REFERENCES contests (contest_id)

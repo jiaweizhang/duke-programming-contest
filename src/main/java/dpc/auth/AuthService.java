@@ -31,11 +31,6 @@ public class AuthService extends dpc.std.Service {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        // check that name doesn't exist
-        if (nameExists(registerRequest.name)) {
-            throw new IllegalArgumentException("Name already exists");
-        }
-
         // hash the password
         String passhash = passwordEncoder.encode(registerRequest.password);
 
@@ -109,10 +104,5 @@ public class AuthService extends dpc.std.Service {
         return this.jt.queryForObject(
                 "SELECT EXISTS(SELECT 1 from users WHERE users.email = ?)",
                 Boolean.class, email);
-    }
-
-    private boolean nameExists(String name) {
-        return this.jt.queryForObject("SELECT EXISTS(SELECT 1 from USERS where users.name = ?)",
-                Boolean.class, name);
     }
 }

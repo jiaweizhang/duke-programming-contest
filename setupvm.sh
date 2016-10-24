@@ -14,9 +14,16 @@ sudo apt-get install oracle-java8-installer
 sudo apt-get install oracle-java8-set-default
 
 #install gradle
-sudo add-apt-repository ppa:cwchien/gradle
-sudo apt-get update
-sudo apt-get install gradle-2.14.1
+#sudo add-apt-repository ppa:cwchien/gradle
+#sudo apt-get update
+#sudo apt-get install gradle-2.14.1
+
+#install sdkman
+curl -s "https://get.sdkman.io" | bash
+
+#install gradle
+sdk install gradle 2.14.1
+#yes, set as default
 
 #install tmux
 sudo apt-get install tmux
@@ -36,3 +43,6 @@ psql
 \password
 create database test;
 \q
+
+# alternative create database
+# createdb test

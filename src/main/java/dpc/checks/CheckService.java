@@ -28,9 +28,17 @@ public class CheckService extends Service {
         );
     }
 
+    public boolean groupSecretExists(String secret) {
+        return jt.queryForObject(
+                "SELECT EXISTS(SELECT 1 from groups WHERE secret = ?);",
+                Boolean.class,
+                secret
+        );
+    }
+
     public boolean randomGroupExists() {
         return jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 FROM groups WHERE group_name = '')",
+                "SELECT EXISTS(SELECT 1 FROM groups WHERE secret = '')",
                 Boolean.class
         );
     }
@@ -38,7 +46,7 @@ public class CheckService extends Service {
     public long getRandomGroupId() {
         // assuming one exists
         return jt.queryForObject(
-                "SELECT group_id FROM groups WHERE group_name = '' ORDER BY group_id DESC LIMIT 1",
+                "SELECT group_id FROM groups WHERE secret = '' ORDER BY group_id DESC LIMIT 1",
                 Long.class
         );
     }
@@ -55,6 +63,14 @@ public class CheckService extends Service {
                 "SELECT group_id FROM groups WHERE group_name = ?",
                 Long.class,
                 groupName
+        );
+    }
+
+    public long getGroupIdBySecret(String secret) {
+        return jt.queryForObject(
+                "SELECT group_id FROM groups WHERE secret =?",
+                Long.class,
+                secret
         );
     }
 
