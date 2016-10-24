@@ -66,7 +66,6 @@ public class GroupTest {
 
             assert (authService.register(registerRequest).success);
         }
-        ;
     }
 
     @Test

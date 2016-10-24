@@ -1,5 +1,7 @@
 import dpc.auth.models.LoginRequest;
 import dpc.auth.models.RegisterRequest;
+import dpc.cache.models.EmailRequest;
+import dpc.cache.models.GroupNameRequest;
 import dpc.contest.models.ContestCreationRequest;
 import dpc.groups.models.CreateGroupRequest;
 import dpc.groups.models.JoinGroupRequest;
@@ -56,5 +58,17 @@ class ModelFactory {
         joinGroupRequest.secret = secret;
         joinGroupRequest.userId = userId;
         return joinGroupRequest;
+    }
+
+    static EmailRequest emailRequest(String email) {
+        EmailRequest emailRequest = new EmailRequest();
+        emailRequest.email = email;
+        return emailRequest;
+    }
+
+    static GroupNameRequest groupNameRequest(String groupName) {
+        GroupNameRequest groupNameRequest = new GroupNameRequest();
+        groupNameRequest.groupName = groupName;
+        return groupNameRequest;
     }
 }

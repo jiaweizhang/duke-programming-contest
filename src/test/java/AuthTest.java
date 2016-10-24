@@ -63,26 +63,6 @@ public class AuthTest {
     }
 
     @Test
-    public void registerUserWithExistingName() {
-        RegisterRequest registerRequest = ModelFactory.registerRequest(
-                "abc@gmail.com", "ABC", "password", "Duke", "2017"
-        );
-        assert (authService.register(registerRequest).success);
-
-        try {
-            RegisterRequest registerRequest2 = ModelFactory.registerRequest(
-                    "abcd@gmail.com", "ABC", "password", "Duke", "2017"
-            );
-            authService.register(registerRequest2);
-            fail("Cannot reach here");
-        } catch (IllegalArgumentException e) {
-
-        } catch (Exception e) {
-            fail("Cannot reach here");
-        }
-    }
-
-    @Test
     public void loginUser() {
         registerUser();
 
