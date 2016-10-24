@@ -129,6 +129,65 @@ body {
   font-size: 28px;
 }
 
+.contest-selector-option {
+  width: 150px;
+  height: 100px;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  border: 4px solid lightgray;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  margin-left: 20px;
+}
+
+.contest-selector-option:first-child {
+  margin-left: 0;
+}
+
+.contest-selector-option:hover {
+  border-color: lightblue;
+}
+
+.contest-selector-option.selected {
+  border-color: #0073e5;
+}
+
+.contest-selector-option.selected .contest-selection-checkmark {
+  display: block;
+}
+
+.contest-option-name {
+  margin-top: 25px;
+  height: 50px;
+}
+
+.contest-selection-checkmark {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+	height: 0;
+	border-bottom: 40px solid #0073e5;
+	border-left: 40px solid transparent;
+  display: none;
+}
+
+.contest-selection-checkmark-image {
+  position: relative;
+  left: -26px;
+  top: 13px;
+  width: 30px;
+  height: 30px;
+}
+
+.open-contests {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
 /* REGISTRATION */
 
 .registration-form-login,
@@ -318,11 +377,14 @@ body {
 }
 
 .link-button:hover {
-  border-color: gray;
+  border-color: lightblue;
+}
+
+.link-button.disabled:hover {
+  border-color: white;
 }
 
 .link-button.login {
-  background-color: var(--theme-color);
   margin-top: 40px;
   margin-left: 80px;
 }
@@ -335,12 +397,25 @@ body {
   background-color: #ffae19;
 }
 
-.link-button.signup-submit {
+.link-button.next,
+.link-button.signup-submit,
+.link-button.login,
+.link-button.signup-success-done {
   background-color: var(--theme-color);
 }
 
-.link-button.signup-cancel {
+.link-button.next {
+  margin-left: 129px;
+  margin-top: 70px;
+}
+
+.link-button.next.disabled {
   background-color: lightgray;
+  color: #a8a8a8;
+}
+
+.link-button.signup-cancel {
+  background-color: gray;
   margin-left: 56px;
 }
 
@@ -350,7 +425,6 @@ body {
 }
 
 .link-button.signup-success-done {
-  background-color: var(--theme-color);
   margin-top: 40px;
   width: 100px;
   margin-left: 138px;

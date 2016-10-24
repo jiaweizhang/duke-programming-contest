@@ -4,7 +4,7 @@ const TITLE_HEIGHT = 100;
 const CONTAINER_WIDTH = 500;
 const CONTAINER_HEIGHT = 450;
 const screens = {
-  CONTEST: 0,
+  CONTESTS: 0,
   LOGIN: 1,
   SIGNUP: 2,
   SUCCESS: 3
@@ -16,7 +16,8 @@ export class SetupScreen extends React.Component{
 
     this.state = {
       error: false,
-      index: screens.CONTEST
+      index: screens.CONTESTS,
+      contestSelected: -1
     }
   }
 
@@ -41,10 +42,9 @@ export class SetupScreen extends React.Component{
     });
   }
 
-  showSignUpForm(event) {
-    event.preventDefault();
+  transitionScreen(screenIndex) {
     this.setState({
-      index: screens.SIGNUP
+      index: screenIndex
     });
   }
 
@@ -83,8 +83,23 @@ export class SetupScreen extends React.Component{
       });
     }
 
+    const destination = shouldSubmit ? screens.SUCCESS : screens.LOGIN;
     this.setState({
-      index: screens.SUCCESS
+      index: destination
+    });
+  }
+
+  showLogin() {
+    if (this.state.contestSelected == -1) {
+      return;
+    }
+    this.transitionScreen(screens.LOGIN);
+  }
+
+  selectContest(index) {
+    const contestSelected = index === this.state.contestSelected ? -1 : index;
+    this.setState({
+      contestSelected: contestSelected
     });
   }
 
@@ -95,34 +110,76 @@ export class SetupScreen extends React.Component{
       type: 'GET'
     });
 
+    let contestList = [];
     $.when(contests).done((response) => {
-      console.log(response);
-    })
+      contestList = response.contests;
+    });
+
+    contestList.push({
+      "contestId": "1",
+      "contestName": "Duke Programming Contest 2016",
+      "startTime": "string",
+      "endTime": "string"
+    });
+
+    let contestElements = [];
+    contestList.forEach((contest, index) => {
+      let contestElement = (
+        <div
+          key={"contest-" + contest.contestId}
+          className={
+            this.state.contestSelected == index
+            ? "contest-selector-option selected"
+            : "contest-selector-option"
+          }
+          onClick={this.selectContest.bind(this, index)}>
+          <div className="contest-option-name">
+            {contest.contestName}
+          </div>
+          <div className="contest-selection-checkmark">
+            <img
+              className="contest-selection-checkmark-image"
+              src="assets/white-checkmark.png"/>
+          </div>
+        </div>
+      );
+      contestElements.push(contestElement);
+    });
+
+    return contestElements;
   }
 
   displayForm() {
     switch (this.state.index) {
-      case 0:
-        this.renderContests();
+      case screens.CONTESTS:
         return (
           <div className="contest-selector" style={{
             left: (CONTAINER_WIDTH - 400)/2 + 'px',
             top: (CONTAINER_HEIGHT - 350)/2 + 'px'
           }}>
-            <div className="contest-selector-header">
+            <div className="contest-selector-header unselectable">
               Select A Competition
             </div>
-            <div className="open-contests">
-              woot
+            <div className="open-contests unselectable">
+              {this.renderContests()}
+            </div>
+            <div
+              className={
+                this.state.contestSelected == -1
+                ? "link-button next disabled"
+                : "link-button next"
+              }
+              onClick={this.showLogin.bind(this)}>
+              Next
             </div>
           </div>
         );
-      case 1:
+      case screens.LOGIN:
         return (
           <div style={{
             width: '300px',
             position: 'absolute',
-            left: (CONTAINER_WIDTH - 320)/2 + 'px',
+            left: (CONTAINER_WIDTH - 300)/2 + 'px',
             top: '20px'
           }}>
             <div className="registration-form-login unselectable">
@@ -168,13 +225,13 @@ export class SetupScreen extends React.Component{
             </div>
             <div
               className="link-button register registration-form-sign-up-link"
-              onClick={this.showSignUpForm.bind(this)}>
+              onClick={this.transitionScreen.bind(this, screens.SIGNUP)}>
               <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
               &nbsp; Sign Up
             </div>
           </div>
         );
-      case 2:
+      case screens.SIGNUP:
         return (
           <div className="signup-form" style={{height: CONTAINER_HEIGHT + 'px'}}>
             <div className="signup-form-header">
@@ -236,7 +293,7 @@ export class SetupScreen extends React.Component{
             </div>
           </div>
         );
-      case 3:
+      case screens.SUCCESS:
         return(
           <div className="signup-success" style={{
             left: (CONTAINER_WIDTH-400)/2 + 'px',
