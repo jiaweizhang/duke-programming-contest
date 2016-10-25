@@ -20,6 +20,14 @@ public class CheckService extends Service {
                 contestId);
     }
 
+    public boolean emailExists(String email) {
+        return jt.queryForObject(
+                "SELECT EXISTS(SELECT 1 from users WHERE email = ?);",
+                Boolean.class,
+                email
+        );
+    }
+
     public boolean groupNameExists(String groupName) {
         return jt.queryForObject(
                 "SELECT EXISTS(SELECT 1 from groups WHERE group_name = ?);",

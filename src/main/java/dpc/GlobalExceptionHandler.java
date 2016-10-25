@@ -85,4 +85,9 @@ public class GlobalExceptionHandler extends Controller {
     public ResponseEntity handleUserNotFoundException(Exception e) {
         return wrap(new StdResponse(200, false, "User (email) not found"));
     }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity handleEmailException(Exception e) {
+        return wrap(new StdResponse(200, false, "Error sending email"));
+    }
 }
