@@ -1,7 +1,6 @@
 package dpc.auth;
 
-import dpc.auth.models.LoginRequest;
-import dpc.auth.models.RegisterRequest;
+import dpc.auth.models.*;
 import dpc.std.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,45 @@ public class AuthController extends Controller {
             headers = {"Content-type=application/json"})
     public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
         return wrap(authService.login(loginRequest));
+    }
+
+    /**
+     * Sends email with token to recover password with
+     *
+     * @param forgotRequest
+     * @return
+     */
+    @RequestMapping(value = "/forgot",
+            method = RequestMethod.POST,
+            headers = {"Content-type=application/json"})
+    public ResponseEntity forgot(@RequestBody ForgotRequest forgotRequest) {
+        return wrap(authService.forgot(forgotRequest));
+    }
+
+    /**
+     * Validates a forgot-password token
+     *
+     * @param validateTokenRequest
+     * @return
+     */
+    @RequestMapping(value = "/validateToken",
+            method = RequestMethod.POST,
+            headers = {"Content-type=application/json"})
+    public ResponseEntity validateToken(@RequestBody ValidateTokenRequest validateTokenRequest) {
+        return wrap(authService.validateToken(validateTokenRequest));
+    }
+
+    /**
+     * Resets a password using a forgot-password token
+     *
+     * @param resetPasswordRequest
+     * @return
+     */
+    @RequestMapping(value = "/resetPassword",
+            method = RequestMethod.POST,
+            headers = {"Content-type=application/json"})
+    public ResponseEntity resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+        return wrap(authService.resetPassword(resetPasswordRequest));
     }
 
 }
