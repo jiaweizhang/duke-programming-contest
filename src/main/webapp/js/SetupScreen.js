@@ -48,21 +48,78 @@ export class SetupScreen extends React.Component{
     });
   }
 
+  clearFields(fields) {
+    fields.forEach((field) => {
+      field.classList.remove('error');
+    });
+  }
+
   finishSignup(shouldSubmit, event) {
     event.preventDefault();
 
+    let hasErrors = false;
+
+    const firstNameField = document.getElementById('firstname-signup-field');
+    const lastNameField = document.getElementById('lastname-signup-field');
+    const schoolField = document.getElementById('school-signup-field');
+    const emailField = document.getElementById('email-signup-field');
+    const gradYearField = document.getElementById('gradyear-signup-field');
+    const passwordField = document.getElementById('password-signup-field');
+    const confirmPasswordField =
+      document.getElementById('password-confirmation-signup-field');
+
+    const firstName = firstNameField.value;
+    const lastName = lastNameField.value;
+    const school = schoolField.value;
+    const email = emailField.value;
+    const gradYear = gradYearField.value;
+    const password = passwordField.value;
+    const confirmPassword = confirmPasswordField.value;
+
+    const fields = [
+      firstNameField,
+      lastNameField,
+      schoolField,
+      emailField,
+      gradYearField,
+      passwordField,
+      confirmPasswordField
+    ];
+
+    const nonBlankValues = {
+      firstName: 'firstname-signup',
+      lastName: 'lastname-signup',
+      school: 'school-signup',
+      email: 'email-signup',
+      gradYear: 'gradyear-signup',
+    }
+
     if (shouldSubmit) {
-      const firstName = document.getElementById('firstname-signup-field').value;
-      const lastName = document.getElementById('lastname-signup-field').value;
-      const school = document.getElementById('school-signup-field').value;
-      const email = document.getElementById('email-signup-field').value;
-      const gradYear = document.getElementById('gradyear-signup-field').value;
-      const password = document.getElementById('password-signup-field').value;
-      const confirmPassword =
-        document.getElementById('password-confirmation-signup-field').value;
-      if (password != confirmPassword) {
-        console.log('passwords don\'t match');
+      this.clearFields(fields);
+
+      for(let key in nonBlankValues) {
+        if (key.length == 0) {
+          document.getElementById(values[key]).classList.add('error');
+          hasError = true;
+        }
       }
+
+      if (password.length <= 6) {
+        document.getElementById('password-signup').classList.add('error');
+        hasErrors = true;
+      }
+
+      if (password != confirmPassword) {
+        document.getElementById(
+          'password-confirmation-signup'
+        ).classList.add('error');
+        hasErrors = true;
+      }
+
+      if (hasErrors) {
+        return;
+      }
+
       const payload = {
         "email": email,
         "name": firstName + " " + lastName,
@@ -82,6 +139,10 @@ export class SetupScreen extends React.Component{
         console.log(response);
       });
     }
+
+    const form = document.getElementById('signup-form');
+    form.reset();
+    this.clearFields(fields);
 
     const destination = shouldSubmit ? screens.SUCCESS : screens.LOGIN;
     this.setState({
@@ -238,44 +299,79 @@ export class SetupScreen extends React.Component{
               Sign Up
             </div>
             <div className="signup-fields">
-              <form onSubmit={this.finishSignup.bind(this, true)}>
-                <input
-                  type="text"
-                  id="firstname-signup-field"
-                  className="text-field"
-                  placeholder="First Name"/>
-                <input
-                  type="text"
-                  id="lastname-signup-field"
-                  className="text-field"
-                  placeholder="Last Name"/>
-                <input
-                  type="text"
-                  id="school-signup-field"
-                  className="text-field"
-                  placeholder="School"/>
-                <input
-                  type="text"
-                  id="gradyear-signup-field"
-                  className="text-field"
-                  placeholder="Graduation Year"/>
-                <input
-                  type="text"
-                  id="email-signup-field"
-                  className="text-field"
-                  placeholder="Email Address"/>
-                <input
-                  type="password"
-                  id="password-signup-field"
-                  className="text-field"
-                  placeholder="Password"
-                  autoComplete="new-password"/>
-                <input
-                  type="password"
-                  id="password-confirmation-signup-field"
-                  className="text-field"
-                  placeholder="Re-enter Password"
-                  autoComplete="new-password"/>
+              <form id="signup-form" onSubmit={this.finishSignup.bind(this, true)}>
+                <div id="firstname-signup">
+                  <input
+                    type="text"
+                    id="firstname-signup-field"
+                    className="text-field"
+                    placeholder="First Name"/>
+                  <div className="error-message">
+                    Cannot be blank
+                  </div>
+                </div>
+                <div id="lastname-signup">
+                  <input
+                    type="text"
+                    id="lastname-signup-field"
+                    className="text-field"
+                    placeholder="Last Name"/>
+                  <div className="lastname error-message">
+                    Cannot be blank
+                  </div>
+                </div>
+                <div id="school-signup">
+                  <input
+                    type="text"
+                    id="school-signup-field"
+                    className="text-field"
+                    placeholder="School"/>
+                  <div className="school error-message">
+                    Cannot be blank
+                  </div>
+                </div>
+                <div id="gradyear-signup">
+                  <input
+                    type="text"
+                    id="gradyear-signup-field"
+                    className="text-field"
+                    placeholder="Graduation Year"/>
+                  <div className="gradyear error-message">
+                    Cannot be blank
+                  </div>
+                </div>
+                <div id="email-signup">
+                  <input
+                    type="text"
+                    id="email-signup-field"
+                    className="text-field"
+                    placeholder="Email Address"/>
+                  <div className="email error-message">
+                    Cannot be blank
+                  </div>
+                </div>
+                <div id="password-signup">
+                  <input
+                    type="password"
+                    id="password-signup-field"
+                    className="text-field"
+                    placeholder="Password"
+                    autoComplete="new-password"/>
+                  <div className="password error-message">
+                    Must be longer than 6 characters
+                  </div>
+                </div>
+                <div id="password-confirmation-signup">
+                  <input
+                    type="password"
+                    id="password-confirmation-signup-field"
+                    className="text-field"
+                    placeholder="Re-enter Password"
+                    autoComplete="new-password"/>
+                  <div className="confirm-password error-message">
+                    Must match password above
+                  </div>
+                </div>
                 <input type="submit" style={{display: 'none'}}/>
               </form>
             </div>
@@ -297,7 +393,7 @@ export class SetupScreen extends React.Component{
         return(
           <div className="signup-success" style={{
             left: (CONTAINER_WIDTH-400)/2 + 'px',
-            top: (CONTAINER_HEIGHT-300)/2 + 'px'
+            top: (CONTAINER_HEIGHT-350)/2 + 'px'
           }}>
             <div className="signup-success-message">
               You&lsquo;ve successfully signed up!
@@ -305,12 +401,10 @@ export class SetupScreen extends React.Component{
             <div className="signup-checkmark-container">
               <img
                 className="signup-checkmark"
-                src="assets/checkmark.png"
-                width="150"
-                height="150"/>
+                src="assets/checkmark.png"/>
             </div>
             <div className="link-button signup-success-done">
-              Ok
+              Done
             </div>
           </div>
         );

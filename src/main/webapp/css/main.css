@@ -223,18 +223,29 @@ body {
   margin-top: 20px;
 }
 
-.signup-fields{
-  margin-top: 20px;
+.signup-fields {
+  margin-top: 10px;
+}
+
+.signup-fields .text-field {
+  margin-top: 0;
+  font-size: 12px;
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
+  /*visibility: hidden;*/
 }
 
 .signup-buttons {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .signup-success {
   position: absolute;
   width: 400px;
-  height: 300px;
+  height: 350px;
   left: 50px;
 }
 
@@ -244,13 +255,15 @@ body {
 }
 
 .signup-checkmark-container {
-  margin-left: 125px;
+  margin-left: 100px;
   margin-top: 40px;
-  border-radius: 75px;
+  border-radius: 100px;
 }
 
 .signup-checkmark {
-  border-radius: 75px;
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
 }
 
 /* PROBLEMS */
@@ -313,6 +326,7 @@ body {
 .text-field {
   background-color: white;
   padding: 0;
+  padding-left: 5px;
   padding-bottom: 0;
   height: 30px;
   width: 300px;
@@ -325,10 +339,16 @@ body {
   display: block;
 }
 
+.text-field.error {
+  border: 1px solid red;
+  border-radius: 5px;
+}
+
 .text-field:focus {
   border: none;
   border-bottom: 3px solid var(--theme-color);
   margin-bottom: -2px;
+  border-radius: 0;
 }
 
 .text-field-container {
