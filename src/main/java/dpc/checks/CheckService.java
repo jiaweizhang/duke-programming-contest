@@ -30,7 +30,7 @@ public class CheckService extends Service {
 
     public boolean groupNameExists(String groupName) {
         return jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 from groups WHERE group_name = ?);",
+                "SELECT EXISTS(SELECT 1 FROM groups WHERE group_name = ?);",
                 Boolean.class,
                 groupName
         );
@@ -38,7 +38,7 @@ public class CheckService extends Service {
 
     public boolean groupSecretExists(String secret) {
         return jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 from groups WHERE secret = ?);",
+                "SELECT EXISTS(SELECT 1 FROM groups WHERE secret = ?);",
                 Boolean.class,
                 secret
         );

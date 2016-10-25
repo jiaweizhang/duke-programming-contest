@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS groups (
 CREATE TABLE IF NOT EXISTS group_membership (
   group_id BIGINT NOT NULL,
   user_id  BIGINT NOT NULL,
-  CONSTRAINT UQ_users UNIQUE (group_id, user_id),
+  CONSTRAINT UQ_group_membership UNIQUE (group_id, user_id),
   CONSTRAINT FK_group_membership_group_id FOREIGN KEY (group_id) REFERENCES groups (group_id),
   CONSTRAINT FK_group_membership_user_id FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
@@ -51,4 +51,12 @@ CREATE TABLE IF NOT EXISTS submissions (
   submit_time    TIMESTAMP DEFAULT current_timestamp,
   CONSTRAINT FK_submissions_group_id FOREIGN KEY (group_id) REFERENCES groups (group_id),
   CONSTRAINT FK_submissions_contest_id FOREIGN KEY (contest_id) REFERENCES contests (contest_id)
+);
+
+/* Password recovery */
+CREATE TABLE IF NOT EXISTS password_recovery (
+  email VARCHAR(255) NOT NULL,
+  token VARCHAR(255) NOT NULL,
+  CONSTRAINT FK_password_recovery_email FOREIGN KEY (email) REFERENCES users (email),
+  CONSTRAINT UQ_password_recovery_token UNIQUE (token)
 );

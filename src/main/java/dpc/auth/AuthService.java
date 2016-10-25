@@ -1,8 +1,6 @@
 package dpc.auth;
 
-import dpc.auth.models.AuthResponse;
-import dpc.auth.models.LoginRequest;
-import dpc.auth.models.RegisterRequest;
+import dpc.auth.models.*;
 import dpc.exceptions.IncorrectPasswordException;
 import dpc.exceptions.UserNotFoundException;
 import dpc.std.models.StdResponse;
@@ -12,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import utilities.EmailUtility;
+import utilities.RNGUtility;
 import utilities.TokenUtility;
 
 import java.sql.PreparedStatement;
@@ -66,6 +65,56 @@ public class AuthService extends dpc.std.Service {
         return new AuthResponse(200, true, "Successfully logged in", token);
     }
 
+    public StdResponse forgot(ForgotRequest forgotRequest) {
+        // validate email exists
+        if (!emailExists(forgotRequest.email)) {
+            throw new IllegalArgumentException("Email does not exist");
+        }
+
+        // generate random token
+        String token = RNGUtility.generateToken();
+
+        // insert/replace token associated with email address
+        insertPasswordRequest(forgotRequest.email, token);
+
+        // send email with token
+        EmailUtility.sendEmail(forgotRequest.email, "Duke Programming Contest - Reset Password",
+                "Hi, Please enter the following token: " + token + ". Thanks!");
+
+        return new StdResponse(200, true, "Sent email with password recovery instructions");
+    }
+
+    public StdResponse validateToken(ValidateTokenRequest validateTokenRequest) {
+        if (passwordRecoveryTokenExists(validateTokenRequest.token)) {
+            // exists and is valid
+            return new StdResponse(200, true, "Token is valid");
+        } else {
+            // token is not found
+            return new StdResponse(200, false, "Token is not valid");
+        }
+    }
+
+    public StdResponse resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        if (passwordRecoveryTokenExists(resetPasswordRequest.token)) {
+            // retrieve corresponding email
+            String email = findMatchingEmail(resetPasswordRequest.token);
+
+            // remove the token from the table
+            deletePasswordRequest(resetPasswordRequest.token);
+
+            // hash the password
+            String passhash = passwordEncoder.encode(resetPasswordRequest.password);
+
+            // update the passhash
+            updatePasshash(email, passhash);
+
+            return new StdResponse(200, true, "Password has been reset");
+        } else {
+            // token is not found
+            return new StdResponse(200, false, "Token is not valid");
+        }
+    }
+
     private long getUserId(String email) {
         List<Long> userIds = jt.queryForList("SELECT user_id FROM users WHERE email = ?", Long.class, email);
         if (userIds.size() == 1) {
@@ -106,7 +155,46 @@ public class AuthService extends dpc.std.Service {
 
     private boolean emailExists(String email) {
         return this.jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 from users WHERE users.email = ?)",
+                "SELECT EXISTS(SELECT 1 FROM users WHERE users.email = ?)",
                 Boolean.class, email);
+    }
+
+    private boolean passwordRecoveryRequestExists(String email) {
+        return this.jt.queryForObject(
+                "SELECT EXISTS(SELECT 1 FROM password_recovery WHERE password_recovery.email = ?)",
+                Boolean.class, email);
+    }
+
+    private boolean passwordRecoveryTokenExists(String token) {
+        return jt.queryForObject(
+                "SELECT EXISTS(SELECT 1 FROM password_recovery WHERE password_recovery.token = ?)",
+                Boolean.class, token);
+    }
+
+    private void insertPasswordRequest(String email, String token) {
+        if (passwordRecoveryRequestExists(email)) {
+            // update
+            jt.update("UPDATE password_recovery SET token = ? WHERE email = ?", token, email);
+        } else {
+            // insert
+            jt.update("INSERT INTO password_recovery (email, token) VALUES (?, ?)", email, token);
+        }
+    }
+
+    private String findMatchingEmail(String token) {
+        return jt.queryForObject(
+                "SELECT email FROM password_recovery WHERE token = ?",
+                String.class, token);
+    }
+
+    private void deletePasswordRequest(String token) {
+        jt.update(
+                "DELETE FROM password_recovery WHERE token = ?",
+                token);
+    }
+
+    private void updatePasshash(String email, String passhash) {
+        jt.update(
+                "UPDATE users SET passhash = ? WHERE email = ?", passhash, email);
     }
 }
