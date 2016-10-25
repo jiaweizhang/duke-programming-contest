@@ -28,4 +28,11 @@ public class ScoresController extends Controller {
     public ResponseEntity getScoreboard(@PathVariable(value = "contestId") String contestId) {
         return wrap(scoresService.getScoreboard(contestId));
     }
+
+    @RequestMapping(value = "/{contestId}/full",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getFullScoreboard(@PathVariable(value = "contestId") String contestId) {
+        return wrap(scoresService.getFullScoreboard(contestId));
+    }
 }
