@@ -21,6 +21,14 @@ public class GroupController extends Controller {
     @Autowired
     private GroupService groupService;
 
+    /**
+     * Create new group for a specific contest
+     *
+     * @param contestId
+     * @param req
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/create/{contestId}",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
@@ -29,6 +37,14 @@ public class GroupController extends Controller {
         return wrap(groupService.createGroup(req, contestId));
     }
 
+    /**
+     * Join a group for a specific contest
+     *
+     * @param contestId
+     * @param req
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/join/{contestId}",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
@@ -37,6 +53,13 @@ public class GroupController extends Controller {
         return wrap(groupService.joinGroup(req, contestId));
     }
 
+    /**
+     * Leave a group for a specific contest
+     *
+     * @param contestId
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/delete/{contestId}",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
@@ -45,6 +68,13 @@ public class GroupController extends Controller {
         return wrap(groupService.leaveGroup(stdRequest, contestId));
     }
 
+    /**
+     * Retrieve information about the group you're currently in for a specific contest
+     *
+     * @param contestId
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/info/{contestId}",
             method = RequestMethod.GET)
     public ResponseEntity infoGroup(@PathVariable(value = "contestId") String contestId, final HttpServletRequest request) {

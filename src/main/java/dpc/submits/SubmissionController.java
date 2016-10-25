@@ -19,6 +19,15 @@ public class SubmissionController extends Controller {
     @Autowired
     private SubmissionService submissionService;
 
+    /**
+     * Submit a solution
+     *
+     * @param contestId
+     * @param problemNumber
+     * @param req
+     * @param body
+     * @return
+     */
     @RequestMapping(value = "/submit/{contestId}/{problemNumber}",
             method = RequestMethod.POST,
             consumes = "text/plain")
@@ -31,6 +40,13 @@ public class SubmissionController extends Controller {
         return wrap(submissionService.submit(stdRequest, contestId, problemNumber, body));
     }
 
+    /**
+     * Retrieve all submissions for a specific contest
+     *
+     * @param contestId
+     * @param req
+     * @return
+     */
     @RequestMapping(value = "/submissions/{contestId}",
             method = RequestMethod.GET)
     @ResponseBody

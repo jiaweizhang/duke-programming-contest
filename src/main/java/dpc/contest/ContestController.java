@@ -20,6 +20,11 @@ public class ContestController extends Controller {
     @Autowired
     private ContestService contestService;
 
+    /**
+     * Fetch all contests
+     *
+     * @return list of contests
+     */
     @RequestMapping(value = "",
             method = RequestMethod.GET)
     @ResponseBody
@@ -29,6 +34,12 @@ public class ContestController extends Controller {
         return wrap(contestService.getContests());
     }
 
+    /**
+     * Fetch contest by name
+     *
+     * @param contestId
+     * @return contest
+     */
     @RequestMapping(value = "/{contest}",
             method = RequestMethod.GET)
     @ResponseBody
@@ -37,6 +48,13 @@ public class ContestController extends Controller {
         return wrap(contestService.getContest(contestId));
     }
 
+    /**
+     * Create new contest
+     *
+     * @param req
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})

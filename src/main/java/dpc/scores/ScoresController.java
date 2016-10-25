@@ -16,6 +16,12 @@ public class ScoresController extends Controller {
     @Autowired
     private ScoresService scoresService;
 
+    /**
+     * Retrieves scoreboard for a contest
+     *
+     * @param contestId
+     * @return
+     */
     @RequestMapping(value = "/{contestId}",
             method = RequestMethod.GET)
     @ResponseBody

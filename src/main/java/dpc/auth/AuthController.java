@@ -17,6 +17,12 @@ public class AuthController extends Controller {
     @Autowired
     private AuthService authService;
 
+    /**
+     * Register new account
+     *
+     * @param registerRequest
+     * @return auth token
+     */
     @RequestMapping(value = "/register",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
@@ -25,6 +31,12 @@ public class AuthController extends Controller {
         return wrap(authService.register(registerRequest));
     }
 
+    /**
+     * Login to account
+     *
+     * @param loginRequest
+     * @return auth token
+     */
     @RequestMapping(value = "/login",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
