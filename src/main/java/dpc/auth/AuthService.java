@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import utilities.EmailUtility;
 import utilities.TokenUtility;
 
 import java.sql.PreparedStatement;
@@ -43,6 +44,9 @@ public class AuthService extends dpc.std.Service {
 
         // generate the token
         String token = TokenUtility.generateToken(userId);
+
+        // send email
+        EmailUtility.sendEmail(registerRequest.email, "Duke Programming Contest Registration", "Hi " + registerRequest.name + ",\n\nYour email has been registered.\n\nCheers,\nDPC");
 
         // return the auth token
         return new AuthResponse(200, true, "Successfully registered account", token);
