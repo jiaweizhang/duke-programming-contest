@@ -20,6 +20,12 @@ public class CacheController extends dpc.std.Controller {
     @Autowired
     private CacheService cacheService;
 
+    /**
+     * Convenience API used for determining whether email is taken
+     *
+     * @param req
+     * @return
+     */
     @RequestMapping(value = "/email",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})
@@ -27,6 +33,12 @@ public class CacheController extends dpc.std.Controller {
         return wrap(cacheService.checkEmail(req));
     }
 
+    /**
+     * Convenience API used for determining whether groupName is taken
+     *
+     * @param req
+     * @return
+     */
     @RequestMapping(value = "/groupName",
             method = RequestMethod.POST,
             headers = {"Content-type=application/json"})

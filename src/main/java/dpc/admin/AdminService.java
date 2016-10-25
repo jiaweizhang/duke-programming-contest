@@ -1,12 +1,8 @@
 package dpc.admin;
 
-import dpc.auth.AuthService;
-import dpc.auth.models.AuthResponse;
 import dpc.std.Service;
 import dpc.std.models.StdResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import utilities.TokenUtility;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,14 +19,6 @@ import java.util.stream.Collectors;
 @Transactional
 @org.springframework.stereotype.Service
 public class AdminService extends Service {
-
-    @Autowired
-    private AuthService authService;
-
-    public StdResponse getToken(String userId) {
-        String token = TokenUtility.generateToken(Long.parseLong(userId));
-        return new AuthResponse(200, true, "Successfully authenticated", token);
-    }
 
     public StdResponse upgradeDb() {
         try {

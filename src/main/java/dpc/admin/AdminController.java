@@ -3,7 +3,10 @@ package dpc.admin;
 import dpc.std.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
@@ -18,18 +21,16 @@ public class AdminController extends Controller {
     @Autowired
     AdminService adminService;
 
+    /**
+     * Endpoint for resetting database
+     *
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/dbup",
             method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity dbup() throws IOException {
         return wrap(adminService.upgradeDb());
     }
-
-    @RequestMapping(value = "/token/{netId}",
-            method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity getToken(@PathVariable(value = "netId") String netId) {
-        return wrap(adminService.getToken(netId));
-    }
-
 }

@@ -13,6 +13,10 @@ import java.util.Properties;
  * Created by jiaweizhang on 10/24/2016.
  */
 
+
+/**
+ * Utility for sending emails
+ */
 public class EmailUtility {
 
     public static void sendEmail(String to, String subject, String content) {
