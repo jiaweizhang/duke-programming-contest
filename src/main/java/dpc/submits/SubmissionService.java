@@ -13,6 +13,7 @@ import dpc.submits.models.SubmissionsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 /**
  * Created by jiaweizhang on 10/2/2016.
  */
+
+@Transactional
 @org.springframework.stereotype.Service
 public class SubmissionService extends Service {
 

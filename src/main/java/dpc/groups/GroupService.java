@@ -27,6 +27,7 @@ import java.util.List;
  * Created by jiaweizhang on 9/28/2016.
  */
 
+@Transactional
 @org.springframework.stereotype.Service
 public class GroupService extends Service {
 
