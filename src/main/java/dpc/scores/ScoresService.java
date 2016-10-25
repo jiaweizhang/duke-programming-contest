@@ -7,6 +7,7 @@ import dpc.scores.models.ScoreboardResponse;
 import dpc.std.Service;
 import dpc.std.models.StdResponse;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import java.util.List;
  * Created by jiaweizhang on 10/3/2016.
  */
 
+@Transactional
 @org.springframework.stereotype.Service
 public class ScoresService extends Service {
 
