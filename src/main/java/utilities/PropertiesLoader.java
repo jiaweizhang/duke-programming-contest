@@ -11,7 +11,7 @@ import java.util.Properties;
  * http://codippa.com/how-to-load-property-file-in-java/
  */
 public class PropertiesLoader {
-    static Properties loadPropertiesFromPackage(String filePath) {
+    public static Properties loadPropertiesFromPackage(String filePath) {
         Properties prop = new Properties();
         try (InputStream in = PropertiesLoader.class.getClassLoader().getResourceAsStream(filePath)) {
             prop.load(in);
