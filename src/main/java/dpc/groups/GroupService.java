@@ -16,17 +16,18 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
+import utilities.RNGUtility;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by jiaweizhang on 9/28/2016.
  */
 
+@Transactional
 @org.springframework.stereotype.Service
 public class GroupService extends Service {
 
@@ -51,7 +52,7 @@ public class GroupService extends Service {
             throw new IllegalArgumentException("group name already exists");
         }
 
-        String secret = generateSecret();
+        String secret = RNGUtility.generateToken();
 
         // add to groups and group_membership tables
         createGroupAndInsertUserSQL(request.groupName, secret, contestId, request.userId);
@@ -198,10 +199,6 @@ public class GroupService extends Service {
         jt.update(
                 "INSERT INTO group_membership (group_id, user_id) VALUES (?, ?)",
                 groupId, userId);
-    }
-
-    private String generateSecret() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
     private static final class GroupMapper implements RowMapper<Group> {

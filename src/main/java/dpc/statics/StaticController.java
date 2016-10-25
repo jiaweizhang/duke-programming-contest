@@ -16,6 +16,12 @@ public class StaticController extends Controller {
     @Autowired
     private StaticService staticService;
 
+    /**
+     * Returns static PDF containing problem
+     *
+     * @param fileName
+     * @return
+     */
     @RequestMapping(value = "/problems/{fileName}",
             method = RequestMethod.GET,
             produces = "application/pdf")
@@ -24,6 +30,12 @@ public class StaticController extends Controller {
         return staticService.getProblem(fileName);
     }
 
+    /**
+     * Returns static text file containing problem input
+     *
+     * @param fileName
+     * @return
+     */
     @RequestMapping(value = "/inputs/{fileName}",
             method = RequestMethod.GET,
             produces = "text/plain")

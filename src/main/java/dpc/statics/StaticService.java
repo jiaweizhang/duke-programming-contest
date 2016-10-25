@@ -11,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 /**
  * Created by jiaweizhang on 10/2/2016.
  */
+
+/**
+ * No need to be transactional
+ */
 @org.springframework.stereotype.Service
 public class StaticService extends Service {
 

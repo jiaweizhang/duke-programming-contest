@@ -16,10 +16,23 @@ public class ScoresController extends Controller {
     @Autowired
     private ScoresService scoresService;
 
+    /**
+     * Retrieves scoreboard for a contest
+     *
+     * @param contestId
+     * @return
+     */
     @RequestMapping(value = "/{contestId}",
             method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getScoreboard(@PathVariable(value = "contestId") String contestId) {
         return wrap(scoresService.getScoreboard(contestId));
+    }
+
+    @RequestMapping(value = "/{contestId}/full",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getFullScoreboard(@PathVariable(value = "contestId") String contestId) {
+        return wrap(scoresService.getFullScoreboard(contestId));
     }
 }

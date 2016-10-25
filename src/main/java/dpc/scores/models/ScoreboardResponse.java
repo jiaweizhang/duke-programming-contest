@@ -9,11 +9,17 @@ import java.util.List;
  */
 public class ScoreboardResponse extends StdResponse {
     public List<ScoreboardGroup> scores;
+    public List<GroupPart> allGroups;
 
-    public ScoreboardResponse(int status, boolean success, String message, List<ScoreboardGroup> scores) {
+    public ScoreboardResponse() {
+
+    }
+
+    public ScoreboardResponse(int status, boolean success, String message, List<ScoreboardGroup> scores, List<GroupPart> allGroups) {
         this.status = status;
         this.success = success;
         this.message = message;
         this.scores = scores;
+        this.allGroups = allGroups;
     }
 }
