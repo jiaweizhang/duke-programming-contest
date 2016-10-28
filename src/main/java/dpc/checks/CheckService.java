@@ -22,7 +22,7 @@ public class CheckService extends Service {
 
     public boolean emailExists(String email) {
         return jt.queryForObject(
-                "SELECT EXISTS(SELECT 1 from users WHERE email = ?);",
+                "SELECT EXISTS(SELECT 1 FROM users WHERE email = ?);",
                 Boolean.class,
                 email
         );
