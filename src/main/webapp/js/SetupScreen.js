@@ -1,13 +1,15 @@
 const React = require('react');
+const Util = require('./Util');
 const $ = require("jquery");
 const TITLE_HEIGHT = 100;
 const CONTAINER_WIDTH = 500;
-const CONTAINER_HEIGHT = 450;
+const CONTAINER_HEIGHT = 500;
 const screens = {
   CONTESTS: 0,
   LOGIN: 1,
   SIGNUP: 2,
-  SUCCESS: 3
+  SUBMITTING: 3,
+  SUCCESS: 4
 }
 
 export class SetupScreen extends React.Component{
@@ -16,16 +18,36 @@ export class SetupScreen extends React.Component{
 
     this.state = {
       error: false,
-      index: screens.CONTESTS,
-      contestSelected: -1
+      index: props.startingScreen,
+      contestSelectedIndex: -1,
+      contestSelected: {}
     }
+  }
+
+  getUserInfo(token, callback) {
+    const accountInfo = $.ajax({
+      contentType: 'application/json',
+      url: 'api/user',
+      type: 'GET',
+      beforeSend: (request) => {
+        request.setRequestHeader('Authorization', token);
+      }
+    });
+
+    $.when(accountInfo).done((response) => {
+      console.log('account info:', response);
+      this.props.updateSession('account', response.user);
+      callback();
+    });
   }
 
   submitLoginInfo(event) {
     event.preventDefault();
     const email = document.getElementById('email-login-field').value;
     const password = document.getElementById('password-login-field').value;
-    console.log('email:', email, ',', 'password:', password);
+    const fields = document.getElementById('registration-fields');
+
+    this.clearErrors(['registration-fields']);
     const payload = {
       "email": email,
       "password": password
@@ -39,6 +61,15 @@ export class SetupScreen extends React.Component{
 
     $.when(login).done((response) => {
       console.log(response);
+      if (response.success) {
+        console.log('logged in!');
+        this.props.updateSession('auth-token', response.token);
+        this.getUserInfo(response.token, () => {
+          Util.fadeElement('setup-screen', this.props.closeSetupScreen);
+        });
+      } else {
+        fields.classList.add('error');
+      }
     });
   }
 
@@ -48,16 +79,34 @@ export class SetupScreen extends React.Component{
     });
   }
 
-  clearFields(fields) {
+  clearErrors(fields) {
     fields.forEach((field) => {
-      field.classList.remove('error');
+      document.getElementById(field).classList.remove('error');
     });
   }
 
-  finishSignup(shouldSubmit, event) {
-    event.preventDefault();
+  cancelSignup() {
+    const form = document.getElementById('signup-form');
+    form.reset();
 
-    let hasErrors = false;
+    const fields = [
+      'firstname-signup',
+      'lastname-signup',
+      'school-signup',
+      'email-signup',
+      'gradyear-signup',
+      'password-signup',
+      'password-confirmation-signup'
+    ];
+    this.clearErrors(fields);
+
+    this.setState({
+      index: screens.LOGIN
+    });
+  }
+
+  submitSignup(event) {
+    event.preventDefault();
 
     const firstNameField = document.getElementById('firstname-signup-field');
     const lastNameField = document.getElementById('lastname-signup-field');
@@ -77,90 +126,154 @@ export class SetupScreen extends React.Component{
     const confirmPassword = confirmPasswordField.value;
 
     const fields = [
-      firstNameField,
-      lastNameField,
-      schoolField,
-      emailField,
-      gradYearField,
-      passwordField,
-      confirmPasswordField
+      'firstname-signup',
+      'lastname-signup',
+      'school-signup',
+      'email-signup',
+      'gradyear-signup',
+      'password-signup',
+      'password-confirmation-signup'
     ];
 
     const nonBlankValues = {
-      firstName: 'firstname-signup',
-      lastName: 'lastname-signup',
-      school: 'school-signup',
-      email: 'email-signup',
-      gradYear: 'gradyear-signup',
+      'firstname-signup': firstName,
+      'lastname-signup': lastName,
+      'school-signup': school,
+      'email-signup': email,
+      'gradyear-signup': gradYear,
     }
 
-    if (shouldSubmit) {
-      this.clearFields(fields);
+    let hasErrors = false;
+    this.clearErrors(fields);
 
-      for(let key in nonBlankValues) {
-        if (key.length == 0) {
-          document.getElementById(values[key]).classList.add('error');
-          hasError = true;
+    for(let key in nonBlankValues) {
+      if (nonBlankValues[key].length == 0) {
+        if (key == 'email-signup') {
+          document.getElementById('email-signup-error').innerText =
+            'Cannot be blank';
         }
-      }
-
-      if (password.length <= 6) {
-        document.getElementById('password-signup').classList.add('error');
+        document.getElementById(key).classList.add('error');
         hasErrors = true;
       }
-
-      if (password != confirmPassword) {
-        document.getElementById(
-          'password-confirmation-signup'
-        ).classList.add('error');
-        hasErrors = true;
-      }
-
-      if (hasErrors) {
-        return;
-      }
-
-      const payload = {
-        "email": email,
-        "name": firstName + " " + lastName,
-        "password": password,
-        "school": school,
-        "classInSchool": gradYear,
-      }
-
-      const registration = $.ajax({
-        contentType: 'application/json',
-        url: 'api/auth/register',
-        type: 'POST',
-        data: JSON.stringify(payload)
-      });
-
-      $.when(registration).done((response) => {
-        console.log(response);
-      });
     }
 
-    const form = document.getElementById('signup-form');
-    form.reset();
-    this.clearFields(fields);
+    if (password.length <= 6) {
+      document.getElementById('password-signup').classList.add('error');
+      hasErrors = true;
+    }
 
-    const destination = shouldSubmit ? screens.SUCCESS : screens.LOGIN;
-    this.setState({
-      index: destination
+    if (password != confirmPassword) {
+      document.getElementById(
+        'password-confirmation-signup'
+      ).classList.add('error');
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      return;
+    }
+
+    const payload = {
+      "email": email,
+      "name": firstName + " " + lastName,
+      "password": password,
+      "school": school,
+      "classInSchool": gradYear,
+    }
+
+    const emailPayload = {
+      "email": email
+    }
+
+    const emailCheck = $.ajax({
+      contentType: 'application/json',
+      url: 'api/quickfetch/email',
+      type: 'POST',
+      data: JSON.stringify(emailPayload)
+    });
+
+    $.when(emailCheck).done((response) => {
+      // console.log(response);
+      if (!response.exists) {
+        console.log('email does not exist already');
+        const registration = $.ajax({
+          contentType: 'application/json',
+          url: 'api/auth/register',
+          type: 'POST',
+          data: JSON.stringify(payload)
+        });
+
+        this.setState({
+          index: screens.SUBMITTING
+        });
+
+        $.when(registration).done((response) => {
+          console.log(response);
+          hasErrors = !response.success;
+          if (response.success) {
+            console.log('success!');
+            this.props.updateSession('auth-token', response.token);
+            this.getUserInfo(response.token, () => {
+              this.setState({
+                index: screens.SUCCESS
+              });
+            });
+          } else {
+            console.log('unsuccess!');
+            this.setState({
+              index: screens.SIGNUP
+            }, () => {
+              const name = payload.name.split(' ');
+              document.getElementById('firstname-signup-field').value =
+                name[0];
+              document.getElementById('lastname-signup-field').value =
+                name[1];
+              document.getElementById('school-signup-field').value =
+                payload.school;
+              document.getElementById('gradyear-signup-field').value =
+                payload.classInSchool;
+              document.getElementById('email-signup-field').value =
+                payload.email;
+              document.getElementById('password-signup-field').value =
+                payload.password;
+              document.getElementById(
+                'password-confirmation-signup-field'
+              ).value = payload.password;
+
+              let error = document.getElementById('email-signup-error');
+              error.innerText = 'Invalid email address';
+              document.getElementById('email-signup').classList.add('error');
+            });
+          }
+        });
+      } else {
+        let error = document.getElementById('email-signup-error');
+        error.innerText = 'Email is already in use';
+        document.getElementById('email-signup').classList.add('error');
+      }
     });
   }
 
+  finishSignup() {
+    Util.fadeElement('setup-screen', () => {
+      this.props.closeSetupScreen();
+    });
+  }
+
+  // after contest has been selected
   showLogin() {
-    if (this.state.contestSelected == -1) {
+    if (this.state.contestSelectedIndex == -1) {
       return;
     }
+    this.props.updateSession('contest', this.state.contestSelected);
     this.transitionScreen(screens.LOGIN);
   }
 
-  selectContest(index) {
-    const contestSelected = index === this.state.contestSelected ? -1 : index;
+  selectContest(index, contest) {
+    const contestSelectedIndex = index === this.state.contestSelectedIndex ? -1 : index;
     this.setState({
-      contestSelected: contestSelected
+      contestSelectedIndex: contestSelectedIndex,
+      contestSelected: contest
     });
   }
 
@@ -176,6 +289,7 @@ export class SetupScreen extends React.Component{
       contestList = response.contests;
     });
 
+    // TODO: use actual contests API request to populate
     contestList.push({
       "contestId": "1",
       "contestName": "Duke Programming Contest 2016",
@@ -189,11 +303,11 @@ export class SetupScreen extends React.Component{
         <div
           key={"contest-" + contest.contestId}
           className={
-            this.state.contestSelected == index
+            this.state.contestSelectedIndex == index
             ? "contest-selector-option selected"
             : "contest-selector-option"
           }
-          onClick={this.selectContest.bind(this, index)}>
+          onClick={this.selectContest.bind(this, index, contestList[index])}>
           <div className="contest-option-name">
             {contest.contestName}
           </div>
@@ -226,7 +340,7 @@ export class SetupScreen extends React.Component{
             </div>
             <div
               className={
-                this.state.contestSelected == -1
+                this.state.contestSelectedIndex == -1
                 ? "link-button next disabled"
                 : "link-button next"
               }
@@ -246,7 +360,7 @@ export class SetupScreen extends React.Component{
             <div className="registration-form-login unselectable">
               Registered User?
             </div>
-            <div className="registration-fields">
+            <div id="registration-fields" className="registration-fields">
               <form onSubmit={(e) => this.submitLoginInfo(e)}>
                 <input
                   type="text"
@@ -261,6 +375,9 @@ export class SetupScreen extends React.Component{
                   autoComplete="new-password"/>
                 <input type="submit" style={{display: 'none'}}/>
               </form>
+              <div className="error-message">
+                Email and password combination does not exist
+              </div>
             </div>
             <div
               className="link-button login"
@@ -270,7 +387,7 @@ export class SetupScreen extends React.Component{
             <div style={{
               width: '200px',
               marginLeft: '50px',
-              marginTop: '40px'
+              marginTop: '60px'
             }}>
               <hr className="registration-divider"/>
               <div style={{
@@ -299,7 +416,7 @@ export class SetupScreen extends React.Component{
               Sign Up
             </div>
             <div className="signup-fields">
-              <form id="signup-form" onSubmit={this.finishSignup.bind(this, true)}>
+              <form id="signup-form" onSubmit={this.submitSignup.bind(this)}>
                 <div id="firstname-signup">
                   <input
                     type="text"
@@ -346,7 +463,7 @@ export class SetupScreen extends React.Component{
                     id="email-signup-field"
                     className="text-field"
                     placeholder="Email Address"/>
-                  <div className="email error-message">
+                  <div id="email-signup-error" className="email error-message">
                     Cannot be blank
                   </div>
                 </div>
@@ -378,19 +495,35 @@ export class SetupScreen extends React.Component{
             <div className="signup-buttons">
               <div
                 className="link-button signup-submit"
-                onClick={this.finishSignup.bind(this, true)}>
+                onClick={this.submitSignup.bind(this)}>
                 Submit
               </div>
               <div
                 className="link-button signup-cancel"
-                onClick={this.finishSignup.bind(this, false)}>
+                onClick={this.cancelSignup.bind(this)}>
                 Cancel
               </div>
             </div>
           </div>
         );
+      case screens.SUBMITTING:
+        return (
+          <div className="signup-submitting" style={{
+            left: (CONTAINER_WIDTH-400)/2 + 'px',
+            top: (CONTAINER_HEIGHT-300)/2 + 'px'
+          }}>
+            <div className="signup-submitting-message">
+              Setting up your account...
+            </div>
+            <div>
+              <img
+                className="signup-submitting-spinner"
+                src="assets/submitting.gif"/>
+            </div>
+          </div>
+        );
       case screens.SUCCESS:
-        return(
+        return (
           <div className="signup-success" style={{
             left: (CONTAINER_WIDTH-400)/2 + 'px',
             top: (CONTAINER_HEIGHT-350)/2 + 'px'
@@ -403,7 +536,9 @@ export class SetupScreen extends React.Component{
                 className="signup-checkmark"
                 src="assets/checkmark.png"/>
             </div>
-            <div className="link-button signup-success-done">
+            <div
+              className="link-button signup-success-done"
+              onClick={this.finishSignup.bind(this)}>
               Done
             </div>
           </div>

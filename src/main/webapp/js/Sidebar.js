@@ -26,6 +26,7 @@ const sidebarTabs = [
 export class Sidebar extends React.Component{
   constructor(props) {
     super(props);
+    console.log('session data', props.sessionData);
 
     this.state = {
       hovered: -1
@@ -48,7 +49,12 @@ export class Sidebar extends React.Component{
     let elements = [];
     sidebarTabs.forEach((tab, index) => {
       elements.push(
-        <Link key={tab.name + "-tab"} to={"/" + (tab.name.toLowerCase() !== "home" ? tab.name.toLowerCase() : "")}>
+        <Link
+          key={tab.name + "-tab"}
+          to={
+            "/" + (tab.name.toLowerCase() !== "home"
+            ? tab.name.toLowerCase()
+            : "")}>
           <div
             className={
               this.props.tabSelected === index
@@ -75,9 +81,25 @@ export class Sidebar extends React.Component{
   }
 
   render() {
+    const account = this.props.sessionData.account;
+    let initials = '?';
+    if (account) {
+      const name = account.name.split(' ');
+      initials =
+        name[0].charAt(0).toUpperCase()
+        + name[1].charAt(0).toUpperCase();
+    }
+
     return (
       <div className="sidebar-nav">
         {this.renderTabs()}
+        <div className="account-info">
+          <div className="profile-icon unselectable">
+            <div className="profile-initials">
+              {initials}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
