@@ -1,15 +1,16 @@
 package dpc.auth;
 
 import dpc.auth.models.*;
+import dpc.email.EmailQueueService;
 import dpc.exceptions.IncorrectPasswordException;
 import dpc.exceptions.UserNotFoundException;
 import dpc.std.models.StdResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import utilities.EmailUtility;
 import utilities.RNGUtility;
 import utilities.TokenUtility;
 
@@ -24,6 +25,9 @@ import java.util.List;
 public class AuthService extends dpc.std.Service {
 
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Autowired
+    private EmailQueueService emailQueueService;
 
     public StdResponse register(RegisterRequest registerRequest) {
         // check that email doesn't exist
@@ -45,7 +49,7 @@ public class AuthService extends dpc.std.Service {
         String token = TokenUtility.generateToken(userId);
 
         // send email
-        EmailUtility.sendEmail(registerRequest.email, "Duke Programming Contest Registration", "Hi " + registerRequest.name + ",\n\nYour email has been registered.\n\nCheers,\nDPC");
+        emailQueueService.sendEmail(registerRequest.email, "Duke Programming Contest Registration", "Hi " + registerRequest.name + ",\n\nYour email has been registered.\n\nCheers,\nDPC");
 
         // return the auth token
         return new AuthResponse(200, true, "Successfully registered account", token);
@@ -78,7 +82,7 @@ public class AuthService extends dpc.std.Service {
         insertPasswordRequest(forgotRequest.email, token);
 
         // send email with token
-        EmailUtility.sendEmail(forgotRequest.email, "Duke Programming Contest - Reset Password",
+        emailQueueService.sendEmail(forgotRequest.email, "Duke Programming Contest - Reset Password",
                 "Hi, Please enter the following token: " + token + ". Thanks!");
 
         return new StdResponse(200, true, "Sent email with password recovery instructions");
