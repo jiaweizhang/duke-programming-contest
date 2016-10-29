@@ -42,6 +42,9 @@ public class GroupService extends Service {
             throw new IllegalArgumentException("contest id does not exist");
         }
 
+        // check that not in a group already
+        checkNotInGroup(contestId, request.userId);
+
         // check that group name is valid
         if (request.groupName == null || request.groupName.equals("")) {
             throw new IllegalArgumentException("group name cannot be empty or null");
@@ -68,6 +71,9 @@ public class GroupService extends Service {
         if (!checkService.contestExists(contestId)) {
             throw new IllegalArgumentException("contest id does not exist");
         }
+
+        // check that not already in group for current contest
+        checkNotInGroup(contestId, request.userId);
 
         // if secret is empty, join a group with no secret or create one if no group exists
         if (request.secret == null || request.secret.length() == 0) {
@@ -199,6 +205,16 @@ public class GroupService extends Service {
         jt.update(
                 "INSERT INTO group_membership (group_id, user_id) VALUES (?, ?)",
                 groupId, userId);
+    }
+
+    private void checkNotInGroup(String contestId, long userId) {
+        boolean alreadyInGroup = jt.queryForObject(
+                "SELECT EXISTS(SELECT 1 FROM groups g JOIN group_membership gm ON g.group_id = gm.group_id WHERE g.contest_id = ? AND gm.user_id = ?)",
+                Boolean.class, contestId, userId
+        );
+        if (alreadyInGroup) {
+            throw new AlreadyInGroupException();
+        }
     }
 
     private static final class GroupMapper implements RowMapper<Group> {
