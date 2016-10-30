@@ -1,5 +1,6 @@
 package dpc.admin;
 
+import dpc.email.EmailSendService;
 import dpc.std.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,10 @@ import java.io.IOException;
 public class AdminController extends Controller {
 
     @Autowired
-    AdminService adminService;
+    private AdminService adminService;
+
+    @Autowired
+    private EmailSendService emailSendService;
 
     /**
      * Endpoint for resetting database
@@ -32,5 +36,18 @@ public class AdminController extends Controller {
     @ResponseBody
     public ResponseEntity dbup() throws IOException {
         return wrap(adminService.upgradeDb());
+    }
+
+    /**
+     * Endpoint for starting email sending
+     *
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/email",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity email() throws IOException {
+        return wrap(emailSendService.start());
     }
 }

@@ -60,3 +60,11 @@ CREATE TABLE IF NOT EXISTS password_recovery (
   CONSTRAINT FK_password_recovery_email FOREIGN KEY (email) REFERENCES users (email),
   CONSTRAINT UQ_password_recovery_token UNIQUE (token)
 );
+
+/* Email queue */
+CREATE TABLE IF NOT EXISTS email_queue (
+  email_id BIGSERIAL     NOT NULL,
+  to_email     VARCHAR(255)  NOT NULL,
+  subject  VARCHAR(255)  NOT NULL,
+  content  VARCHAR(4000) NOT NULL
+);
