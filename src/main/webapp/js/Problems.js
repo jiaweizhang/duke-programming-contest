@@ -26,7 +26,7 @@ export class Problems extends React.Component{
   }
 
   componentDidMount() {
-    this.props.selectTab(2);
+    this.props.selectTab(1);
   }
 
   renderProblemPreviews() {

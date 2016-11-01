@@ -70,6 +70,37 @@ body {
   display: none;
 }
 
+.account-info {
+  position: absolute;
+  bottom: 0;
+  width: 60px;
+  height: 100px;
+}
+
+.profile-icon {
+  border-radius: 25px;
+  border: 1px solid white;
+  color: white;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 20px;
+  left: 9px;
+  cursor: pointer;
+}
+
+.profile-icon:hover {
+  color: black;
+  background-color: white;
+}
+
+.profile-initials {
+  text-align: center;
+  height: 30px;
+  font-size: 20px;
+  margin-top: 6px;
+}
+
 /* HOME */
 
 .home-tab-getting-started {
@@ -91,12 +122,6 @@ body {
 .home-tab-getting-started-item {
   padding: 20px;
   padding-bottom: 0;
-}
-
-.home-intro {
-  left: 50px;
-  top: 50px;
-  position: absolute;
 }
 
 /* SETUP SCREEN*/
@@ -206,7 +231,7 @@ body {
 
 .registration-form-sign-up-link {
   margin-left: 80px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .registration-fields {
@@ -223,18 +248,38 @@ body {
   margin-top: 20px;
 }
 
-.signup-fields{
-  margin-top: 20px;
+.signup-fields {
+  margin-top: 10px;
+}
+
+.signup-fields .text-field {
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
+  visibility: hidden;
+  margin-left: 5px;
+}
+
+.registration-fields .error-message {
+  margin-top: 5px;
+}
+
+.error .error-message {
+  visibility: visible;
 }
 
 .signup-buttons {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .signup-success {
   position: absolute;
   width: 400px;
-  height: 300px;
+  height: 350px;
   left: 50px;
 }
 
@@ -244,13 +289,33 @@ body {
 }
 
 .signup-checkmark-container {
-  margin-left: 125px;
+  margin-left: 100px;
   margin-top: 40px;
-  border-radius: 75px;
+  border-radius: 100px;
 }
 
 .signup-checkmark {
-  border-radius: 75px;
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+}
+
+.signup-submitting {
+  width: 400px;
+  height: 300px;
+  position: absolute;
+}
+
+.signup-submitting-message {
+  font-size: 28px;
+  text-align: center;
+}
+
+.signup-submitting-spinner {
+  width: 150px;
+  height: 150px;
+  margin-left: 125px;
+  margin-top: 50px;
 }
 
 /* PROBLEMS */
@@ -278,7 +343,7 @@ body {
   height: 100px;
   width: 60px;
   text-align: center;
-  background-color: #001A57;
+  background-color: var(--theme-color);
   position: absolute;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -313,11 +378,12 @@ body {
 .text-field {
   background-color: white;
   padding: 0;
+  padding-left: 5px;
   padding-bottom: 0;
   height: 30px;
   width: 300px;
   font-size: 14px;
-  border: none;
+  border: 1px solid white;
   border-bottom: 1px solid lightgray;
   outline: none;
   font-family: 'Open Sans', sans-serif;
@@ -325,10 +391,16 @@ body {
   display: block;
 }
 
+.error .text-field {
+  border: 1px solid red;
+  border-radius: 5px;
+}
+
 .text-field:focus {
   border: none;
   border-bottom: 3px solid var(--theme-color);
-  margin-bottom: -2px;
+  margin-bottom: -1px;
+  border-radius: 0;
 }
 
 .text-field-container {
@@ -356,6 +428,14 @@ body {
   border-top-right-radius: 4px;
 }
 
+.home-intro,
+.groups-tab,
+.leaderboard-tab,
+.help-tab {
+  left: 50px;
+  top: 50px;
+  position: absolute;
+}
 
 .link-button {
   padding: 10px;
@@ -385,7 +465,7 @@ body {
 }
 
 .link-button.login {
-  margin-top: 40px;
+  margin-top: 50px;
   margin-left: 80px;
 }
 
@@ -430,6 +510,15 @@ body {
   margin-left: 138px;
 }
 
+.fade-element {
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.hidden {
+  display: none;
+}
+
 .unselectable {
   -webkit-user-drag: none;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -437,4 +526,46 @@ body {
   -khtml-user-select: none;    /* Konqueror */
   -moz-user-select: none;      /* Firefox */
   -ms-user-select: none;
+}
+
+/* NUX */
+.nux-arrow {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 7px solid #0080FF;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.nux {
+  background-color: #0080FF;
+  border-radius: 10px;
+  display: inline-block;
+  height: 40px;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.nux-message {
+  color: white;
+  font-size: 14px;
+  height: 20px;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.nux-container {
+  position: absolute;
+  z-index: 10;
+}
+
+.close-nux {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
 }

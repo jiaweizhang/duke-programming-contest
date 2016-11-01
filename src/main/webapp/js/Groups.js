@@ -6,13 +6,26 @@ export class Groups extends React.Component{
   }
 
   componentDidMount() {
-    this.props.selectTab(3);
+    this.props.selectTab(2);
   }
 
   render() {
+    const width = this.props.dimensions.width - 160;
+    const height = this.props.dimensions.height - 100;
+
     return (
       <div>
-        Groups
+        <div className="groups-tab card" style={{
+          width: width,
+          height: height
+        }}>
+          <div className="tab-title">
+            Groups
+          </div>
+          <div>
+            asdf
+          </div>
+        </div>
       </div>
     );
   }
