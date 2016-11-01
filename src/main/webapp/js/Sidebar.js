@@ -94,7 +94,9 @@ export class Sidebar extends React.Component{
       <div className="sidebar-nav">
         {this.renderTabs()}
         <div className="account-info">
-          <div className="profile-icon unselectable">
+          <div
+            onClick={this.props.showSetup}
+            className="profile-icon unselectable">
             <div className="profile-initials">
               {initials}
             </div>

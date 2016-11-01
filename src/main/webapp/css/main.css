@@ -367,6 +367,135 @@ body {
   color: gray;
 }
 
+/* GROUPS */
+
+.groups-tab-container {
+  position: absolute;
+}
+
+.group-info {
+  text-align: center;
+}
+
+.no-group {
+  font-size: 32px;
+}
+
+.your-group-name {
+  font-size: 56px;
+}
+
+.your-group-members {
+  font-size: 24px;
+  color: gray;
+}
+
+.group-info-container {
+  width: 400px;
+  height: 400px;
+}
+
+.group-setup-container {
+  overflow: hidden;
+  position: absolute;
+  height: 300px;
+  margin-top: 40px;
+  /*border: 1px solid lightgray;*/
+  border-radius: 10px;
+}
+
+.submit-new-group {
+  margin-top: 40px;
+}
+
+.submit-new-group.submitting {
+  opacity: 0.7;
+}
+
+.group-setup-form .text-field {
+  text-align: center;
+}
+
+.group-setup-form-container {
+  width: 300px;
+  left: 100px;
+  position: absolute;
+  margin-top: 40px;
+}
+
+.group-setup-form-container .error-message {
+  margin-left: 10px;
+  text-align: center;
+}
+
+.group-setup-header {
+  font-size: 28px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.leave-group-confirmation {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.leave-group-confirmation-buttons {
+  margin-top: 20px;
+}
+
+.leave-group-confirmation-buttons .link-button {
+  width: 100px;
+  margin-left: 40px;
+}
+
+.leave-group-confirmation-buttons .link-button:first-child {
+  margin-left: 12px;
+}
+
+.sliding-setup-panel {
+  position: absolute;
+}
+
+.group-setup-panel {
+  display: inline-block;
+  position: absolute;
+}
+
+.group-buttons {
+  position: absolute;
+  width: 172px;
+  height: 204px;
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-buttons .link-button {
+  width: 150px;
+  display: inline-block;
+  margin-top: 40px;
+}
+
+.group-buttons .link-button:first-child {
+  margin-top: 0;
+}
+
+.slide-panel {
+  transition: all 0.5s;
+}
+
+.setup-back-button {
+  position: absolute;
+  top: 25px;
+  left: 35px;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.setup-back-button:hover {
+  color: gray;
+}
+
 /* MISCELLANEOUS */
 
 .card {
@@ -480,7 +609,8 @@ body {
 .link-button.next,
 .link-button.signup-submit,
 .link-button.login,
-.link-button.signup-success-done {
+.link-button.signup-success-done,
+.link-button.submit-new-group {
   background-color: var(--theme-color);
 }
 
@@ -510,9 +640,45 @@ body {
   margin-left: 138px;
 }
 
+.link-button.create-group {
+  background-color: #81d681;
+}
+
+.link-button.join-group {
+  background-color: #F5C52C;
+}
+
+.link-button.leave-group {
+  background-color: #CC0000;
+}
+
+.yes-leave.link-button {
+  background-color: #006600;
+}
+
+.no-leave.link-button {
+  background-color: #CC1414;
+}
+
 .fade-element {
   opacity: 0;
   transition: all 0.5s;
+}
+
+.contest-fetching-indicator {
+  width: 80px;
+  height: 128px;
+}
+
+.contest-fetching {
+  width: 60px;
+  height: 60px;
+  margin-left: 10px;
+}
+
+.contest-fetching-label {
+  text-align: center;
+  margin-top: 30px;
 }
 
 .hidden {

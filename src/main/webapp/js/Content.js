@@ -2,6 +2,7 @@ const React = require('react');
 const SetupScreen = require('./SetupScreen');
 const Nux = require('./Nux');
 const Sidebar = require('./Sidebar');
+const $ = require("jquery");
 const screens = {
   NONE: -1,
   CONTESTS: 0,
@@ -21,6 +22,29 @@ export class Content extends React.Component{
         dimensions: this.calculateDimensions()
       });
     }
+
+    // const contestPayload = {
+    //   "contestId": "1",
+    //   "contestName": "Duke Programming Contest 2016",
+    //   "startTime": "1481562000000", // 12:00PM 11/12/16
+    //   "endTime": "1481583600000", // 6:00PM 11/12/16
+    // };
+    //
+    // const createContest = $.ajax({
+    //   beforeSend: (request) => {
+    //     const authToken = localStorage.getItem('auth-token');
+    //     console.log('auth token:', authToken);
+    //     request.setRequestHeader('Authorization', authToken);
+    //   },
+    //   contentType: 'application/json',
+    //   url: 'api/contests',
+    //   type: 'POST',
+    //   data: JSON.stringify(contestPayload)
+    // });
+    //
+    // $.when(createContest).done((response) => {
+    //   console.log('contest creation', response);
+    // });
 
     // this.clearSession();
     // this.clearNuxCount();
@@ -82,7 +106,11 @@ export class Content extends React.Component{
   updateSession(key, value) {
     console.log('update', key, 'to', value);
     let sessionData = this.state.sessionData;
-    localStorage.setItem(key, JSON.stringify(value));
+    if (key != 'auth-token') {
+      localStorage.setItem(key, JSON.stringify(value));
+    } else {
+      localStorage.setItem(key, value);
+    }
     sessionData[key] = value;
     this.setState({
       sessionData: sessionData
@@ -105,6 +133,13 @@ export class Content extends React.Component{
       width: Math.max(windowDimensions[0], 800),
       height: Math.max(windowDimensions[1], 600)
     };
+  }
+
+  showSetupScreen(screen) {
+    this.setState({
+      setupScreenHidden: false,
+      startingScreen: screen
+    });
   }
 
   closeSetupScreen() {

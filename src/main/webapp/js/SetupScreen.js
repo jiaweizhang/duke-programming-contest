@@ -20,10 +20,11 @@ export class SetupScreen extends React.Component{
       error: false,
       index: props.startingScreen,
       contestSelectedIndex: -1,
-      contestSelected: {}
+      contestSelected: {},
+      contestList: [],
+      contestsFetched: false
     }
   }
-
   getUserInfo(token, callback) {
     const accountInfo = $.ajax({
       contentType: 'application/json',
@@ -277,51 +278,64 @@ export class SetupScreen extends React.Component{
     });
   }
 
-  renderContests() {
+  fetchContests() {
+    if (this.state.contestsFetched) {
+      return;
+    }
     const contests = $.ajax({
       contentType: 'application/json',
       url: 'api/contests',
       type: 'GET'
     });
 
-    let contestList = [];
     $.when(contests).done((response) => {
-      contestList = response.contests;
+      this.setState({
+        contestList: response.contests,
+        contestsFetched: true
+      });
     });
+  }
 
-    // TODO: use actual contests API request to populate
-    contestList.push({
-      "contestId": "1",
-      "contestName": "Duke Programming Contest 2016",
-      "startTime": "string",
-      "endTime": "string"
-    });
-
+  renderContests() {
     let contestElements = [];
-    contestList.forEach((contest, index) => {
-      let contestElement = (
-        <div
-          key={"contest-" + contest.contestId}
-          className={
-            this.state.contestSelectedIndex == index
-            ? "contest-selector-option selected"
-            : "contest-selector-option"
-          }
-          onClick={this.selectContest.bind(this, index, contestList[index])}>
-          <div className="contest-option-name">
-            {contest.contestName}
+    this.fetchContests();
+    let contestList = this.state.contestList;
+    if (contestList.length > 0) {
+      contestList.forEach((contest, index) => {
+        let contestElement = (
+          <div
+            key={"contest-" + contest.contestId}
+            className={
+              this.state.contestSelectedIndex == index
+              ? "contest-selector-option selected"
+              : "contest-selector-option"
+            }
+            onClick={this.selectContest.bind(this, index, contestList[index])}>
+            <div className="contest-option-name">
+              {contest.contestName}
+            </div>
+            <div className="contest-selection-checkmark">
+              <img
+                className="contest-selection-checkmark-image"
+                src="assets/white-checkmark.png"/>
+            </div>
           </div>
-          <div className="contest-selection-checkmark">
-            <img
-              className="contest-selection-checkmark-image"
-              src="assets/white-checkmark.png"/>
+        );
+        contestElements.push(contestElement);
+      });
+      return contestElements;
+    } else {
+      return (
+        <div className="contest-fetching-indicator">
+          <div className="contest-fetching-label">
+            Fetching...
+          </div>
+          <div>
+            <img className="contest-fetching" src="assets/loading.gif"/>
           </div>
         </div>
       );
-      contestElements.push(contestElement);
-    });
-
-    return contestElements;
+    }
   }
 
   displayForm() {

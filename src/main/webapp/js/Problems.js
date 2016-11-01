@@ -33,7 +33,7 @@ export class Problems extends React.Component{
     let elements = [];
     problems.forEach((problem, index) => {
       const problemElement = (
-        <div key={"problem-" + index} className="problem-preview card">
+        <div key={"problem-" + index} className="problem-preview card unselectable">
           <div className="problem-number-container">
             <div className="problem-number">{problem.number}</div>
           </div>
